@@ -8,6 +8,8 @@ CreateClientConVar("gwz_hud_enable", 1, true, false, "Enable drawing Warzone-lik
 local pPlayer = LocalPlayer()
 local m_iPlayerColor = GetConVar("cl_playercolor")
 
+local m_bAllowBreakSound = false
+
 GWZ = {}
 
 surface.CreateFont( "GWZ_Small", {
@@ -57,6 +59,7 @@ hook.Add( "HUDPaint", "GWZHudPaint", function()
 	local pPlayer = LocalPlayer()
 	if !GetConVar("gwz_hud_enable"):GetBool() or !GetConVar("cl_drawhud"):GetBool() then return end
 	if !pPlayer:Alive() then return end
+	if !pPlayer:Alive() then m_bAllowBreakSound = false end
 	
 	-- Draw transparent background with gradient
 	surface.SetDrawColor( 255, 255, 255, 205 )
@@ -142,7 +145,6 @@ hook.Add( "HUDPaint", "GWZHudPaint", function()
 	surface.SetDrawColor( 61, 58, 56 )
 	surface.DrawRect(264 , ScrH() - 155, 55, 8)
 	
-	
 	if ( pPlayer:Armor() < 100 || pPlayer:Armor() == 100)  then 
 		armorBar1Lenght = 55
 	end
@@ -214,11 +216,28 @@ hook.Add( "HUDPaint", "GWZHudPaint", function()
 		surface.SetDrawColor( 58, 101, 181 )
 		surface.DrawRect(150 , ScrH() - 155, armorBar3Lenght, 8)
 	end
+	
+	if pPlayer:Armor() > 0 then
+		m_bAllowBreakSound = true
+	end
+		
+	-- Play armor break sound when it's broked by enemy
+	if pPlayer:Armor() == 0 then
+		if m_bAllowBreakSound == true then
+			surface.PlaySound("player/hit_armor_break_01.wav")
+			m_bAllowBreakSound = false
+		end
+	end
 end )
 
 hook.Add( "HUDShouldDraw", "GWZ_HudShouldDraw", function( name )
 	if ( hide[ name ] ) and GetConVar("gwz_hud_enable"):GetBool() and GetConVar("cl_drawhud"):GetBool() then return false end
 end )
+
+hook.Add( "PostPlayerDeath", "Dever", function( pPlayer )
+	m_bAllowBreakSound = false`
+end )
+
 
 
 
