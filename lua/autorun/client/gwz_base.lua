@@ -39,6 +39,9 @@ local m_sHosterStar = Material( "hud/hoster_star.png" )
 
 local m_sArmorIcon = Material( "hud/armor_icon.png" )
 local m_sArmorBox = Material( "hud/armor_circle.png" )
+local m_sArmorBoxMedium = Material( "hud/armor_circle_med.png" )
+local m_sArmorBoxUnbound = Material( "hud/armor_circle_unbound.png" )
+
 
 // -----------------------------------------------------------------
 // Purpose: Display player's information (nickname, current health 
@@ -78,47 +81,179 @@ hook.Add( "HUDPaint", "GWZHudPaint", function()
 		surface.SetMaterial( m_sHosterStar )
 		surface.DrawTexturedRect( 126 , ScrH() - 177, 16, 16 )
 	end
+
 	
 	-- Draw armor icon (VManip Warzone Armir plates)
+	
+	m_inputWarzoneArmorText = "UNBOUND"
+	
+	m_inputWarzoneArmor = input.LookupBinding( "+armorplate" )
+	if m_inputWarzoneArmor then
+		m_inputWarzoneArmorText = string.upper(m_inputWarzoneArmor) 
+	end
+	
+	if !m_inputWarzoneArmor then
+		m_inputWarzoneArmorText = "UNBOUND"
+	end
+	
 	if pPlayer:GetArmorPlates() > 0 then
-		surface.SetDrawColor( 255, 255, 255, 250 )
-		surface.SetMaterial( m_sArmorIcon )
-		surface.DrawTexturedRect( 455 , ScrH() - 185, 50, 59 )
+	
+		if (m_inputWarzoneArmor && string.len(m_inputWarzoneArmor) == 1) then
+			surface.SetDrawColor( 255, 255, 255, 200 )
+			surface.SetMaterial( m_sArmorBox )
+			surface.DrawTexturedRect( 466 , ScrH() - 135, 30, 35 )
 
-		surface.SetDrawColor( 255, 255, 255, 200 )		
-		surface.SetMaterial( m_sArmorBox )
-		surface.DrawTexturedRect( 465 , ScrH() - 135, 30, 35 )	
-
-		m_inputWarzoneArmor = input.LookupBinding( "+armorplate" )
-		m_inputWarzoneArmor = string.upper(m_inputWarzoneArmor) 
+			surface.SetDrawColor( 255, 255, 255, 250 )
+			surface.SetMaterial( m_sArmorIcon )
+			surface.DrawTexturedRect( 456 , ScrH() - 185, 50, 59 )
+			
+			surface.SetFont( "GWZ_Medium" )
+			surface.SetTextColor( 255, 255, 255 )
+			surface.SetTextPos( 510 , ScrH() - 167.6 ) 
+			surface.DrawText( pPlayer:GetArmorPlates() )
+		end	
 		
+		if (m_inputWarzoneArmor && string.len(m_inputWarzoneArmor) == 2) then
+			surface.SetDrawColor( 255, 255, 255, 200 )
+			surface.SetMaterial( m_sArmorBox )
+			surface.DrawTexturedRect( 469 , ScrH() - 135, 40, 35 )
+
+			surface.SetDrawColor( 255, 255, 255, 250 )
+			surface.SetMaterial( m_sArmorIcon )
+			surface.DrawTexturedRect( 463 , ScrH() - 185, 50, 59 )
+			
+			surface.SetFont( "GWZ_Medium" )
+			surface.SetTextColor( 255, 255, 255 )
+			surface.SetTextPos( 517 , ScrH() - 167.6 ) 
+			surface.DrawText( pPlayer:GetArmorPlates() )	
+		end	
+		
+		if (m_inputWarzoneArmor && string.len(m_inputWarzoneArmor) == 3) then
+			surface.SetDrawColor( 255, 255, 255, 200 )
+			surface.SetMaterial( m_sArmorBoxMedium )
+			surface.DrawTexturedRect( 469 , ScrH() - 135, 40, 35 )
+
+			surface.SetDrawColor( 255, 255, 255, 250 )
+			surface.SetMaterial( m_sArmorIcon )
+			surface.DrawTexturedRect( 463 , ScrH() - 185, 50, 59 )
+			
+			surface.SetFont( "GWZ_Medium" )
+			surface.SetTextColor( 255, 255, 255 )
+			surface.SetTextPos( 517 , ScrH() - 167.6 ) 
+			surface.DrawText( pPlayer:GetArmorPlates() )	
+		end	
+
+		if (m_inputWarzoneArmor && string.len(m_inputWarzoneArmor) == 4) then
+			surface.SetDrawColor( 255, 255, 255, 200 )
+			surface.SetMaterial( m_sArmorBoxMedium )
+			surface.DrawTexturedRect( 465 , ScrH() - 135, 57, 35 )
+
+			surface.SetDrawColor( 255, 255, 255, 250 )
+			surface.SetMaterial( m_sArmorIcon )
+			surface.DrawTexturedRect( 466 , ScrH() - 185, 50, 59 )
+			
+			surface.SetFont( "GWZ_Medium" )
+			surface.SetTextColor( 255, 255, 255 )
+			surface.SetTextPos( 517 , ScrH() - 167.6 ) 
+			surface.DrawText( pPlayer:GetArmorPlates() )
+		end	
+
+		if (m_inputWarzoneArmor && string.len(m_inputWarzoneArmor) == 5) then
+			surface.SetDrawColor( 255, 255, 255, 200 )
+			surface.SetMaterial( m_sArmorBoxMedium )
+			surface.DrawTexturedRect( 465 , ScrH() - 135, 70, 35 )
+
+			surface.SetDrawColor( 255, 255, 255, 250 )
+			surface.SetMaterial( m_sArmorIcon )
+			surface.DrawTexturedRect( 466 , ScrH() - 185, 50, 59 )
+			
+			surface.SetFont( "GWZ_Medium" )
+			surface.SetTextColor( 255, 255, 255 )
+			surface.SetTextPos( 517 , ScrH() - 167.6 ) 
+			surface.DrawText( pPlayer:GetArmorPlates() )
+		end				
+			
+		if !m_inputWarzoneArmor then
+			surface.SetDrawColor( 255, 255, 255, 250 )
+			surface.SetMaterial( m_sArmorIcon )
+			surface.DrawTexturedRect( 488 , ScrH() - 185, 50, 59 )
+			
+			surface.SetDrawColor( 255, 255, 255, 255 )		
+			surface.SetMaterial( m_sArmorBoxUnbound )
+			surface.DrawTexturedRect( 463 , ScrH() - 135, 100, 35 )	
+		end
+				
 		surface.SetFont( "GWZ_Small" )
 		surface.SetTextColor( 0, 0, 0 )
 		surface.SetTextPos( 475 , ScrH() - 130 ) 
-		surface.DrawText( m_inputWarzoneArmor )	
-
-		surface.SetFont( "GWZ_Medium" )
-		surface.SetTextColor( 255, 255, 255 )
-		surface.SetTextPos( 500 , ScrH() - 165 ) 
-		surface.DrawText( pPlayer:GetArmorPlates() )		
+		surface.DrawText( m_inputWarzoneArmorText )			
 	end
 	
 	if pPlayer:GetArmorPlates() == 0 then
-		surface.SetDrawColor( 255, 255, 255, 150 )
-		surface.SetMaterial( m_sArmorIcon )
-		surface.DrawTexturedRect( 455 , ScrH() - 185, 50, 59 )
-		
-		surface.SetDrawColor( 255, 255, 255, 100 )		
-		surface.SetMaterial( m_sArmorBox )
-		surface.DrawTexturedRect( 465 , ScrH() - 135, 30, 35 )	
+		if (m_inputWarzoneArmor && string.len(m_inputWarzoneArmor) == 1) then
+			surface.SetDrawColor( 255, 255, 255, 95 )
+			surface.SetMaterial( m_sArmorBox )
+			surface.DrawTexturedRect( 466 , ScrH() - 135, 30, 35 )
 
-		m_inputWarzoneArmor = input.LookupBinding( "+armorplate" )
-		m_inputWarzoneArmor = string.upper(m_inputWarzoneArmor) 
+			surface.SetDrawColor( 255, 255, 255, 120 )
+			surface.SetMaterial( m_sArmorIcon )
+			surface.DrawTexturedRect( 456 , ScrH() - 185, 50, 59 )
+		end	
+		
+		if (m_inputWarzoneArmor && string.len(m_inputWarzoneArmor) == 2) then
+			surface.SetDrawColor( 255, 255, 255, 95 )
+			surface.SetMaterial( m_sArmorBox )
+			surface.DrawTexturedRect( 469 , ScrH() - 135, 40, 35 )
+
+			surface.SetDrawColor( 255, 255, 255, 250 )
+			surface.SetMaterial( m_sArmorIcon )
+			surface.DrawTexturedRect( 463 , ScrH() - 185, 50, 59 )	
+		end	
+		
+		if (m_inputWarzoneArmor && string.len(m_inputWarzoneArmor) == 3) then
+			surface.SetDrawColor( 255, 255, 255, 95 )
+			surface.SetMaterial( m_sArmorBoxMedium )
+			surface.DrawTexturedRect( 469 , ScrH() - 135, 40, 35 )
+
+			surface.SetDrawColor( 255, 255, 255, 250 )
+			surface.SetMaterial( m_sArmorIcon )
+			surface.DrawTexturedRect( 463 , ScrH() - 185, 50, 59 )	
+		end	
+
+		if (m_inputWarzoneArmor && string.len(m_inputWarzoneArmor) == 4) then
+			surface.SetDrawColor( 255, 255, 255, 95 )
+			surface.SetMaterial( m_sArmorBoxMedium )
+			surface.DrawTexturedRect( 465 , ScrH() - 135, 57, 35 )
+
+			surface.SetDrawColor( 255, 255, 255, 250 )
+			surface.SetMaterial( m_sArmorIcon )
+			surface.DrawTexturedRect( 466 , ScrH() - 185, 50, 59 )
+		end	
+
+		if (m_inputWarzoneArmor && string.len(m_inputWarzoneArmor) > 4) then
+			surface.SetDrawColor( 255, 255, 255, 95 )
+			surface.SetMaterial( m_sArmorBoxMedium )
+			surface.DrawTexturedRect( 465 , ScrH() - 135, 57, 35 )
+
+			surface.SetDrawColor( 255, 255, 255, 250 )
+			surface.SetMaterial( m_sArmorIcon )
+			surface.DrawTexturedRect( 466 , ScrH() - 185, 50, 59 )
+		end				
+		
+		if !m_inputWarzoneArmor then		
+			surface.SetDrawColor( 255, 255, 255, 250 )
+			surface.SetMaterial( m_sArmorIcon )
+			surface.DrawTexturedRect( 488 , ScrH() - 185, 50, 59 )
+			
+			surface.SetDrawColor( 255, 255, 255, 255 )		
+			surface.SetMaterial( m_sArmorBoxUnbound )
+			surface.DrawTexturedRect( 463 , ScrH() - 135, 100, 35 )	
+		end
 		
 		surface.SetFont( "GWZ_Small" )
 		surface.SetTextColor( 64, 64, 64 )
 		surface.SetTextPos( 475 , ScrH() - 130 ) 
-		surface.DrawText( m_inputWarzoneArmor )
+		surface.DrawText( m_inputWarzoneArmorText )			
 	end
 
 	
