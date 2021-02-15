@@ -13,17 +13,41 @@ local m_bAllowBreakSound = false
 GWZ = {}
 
 surface.CreateFont( "GWZ_Small", {
-	font = "Ubuntu",
+	font = "Normative Pro Light",
 	extended = false,
 	shadow = true,	
 	size = 20,
+	antialias = true,
+} )
+
+surface.CreateFont( "GWZ_SmallNoShadow", {
+	font = "Normative Pro Light",
+	extended = false,	
+	size = 20,
+	antialias = true,	
 } )
 
 surface.CreateFont( "GWZ_Medium", {
-	font = "Ubuntu",
+	font = "Normative Pro Light",
 	extended = false,
 	shadow = true,	
 	size = 30,
+	antialias = true,	
+} )
+
+surface.CreateFont( "GWZ_MediumNoShadow", {
+	font = "Normative Pro Light",
+	extended = false,
+	size = 30,
+	antialias = true,	
+} )
+
+surface.CreateFont( "GWZ_Numbers", {
+	font = "Roag-Bold",
+	extended = false,
+	shadow = true,	
+	size = 30,
+	antialias = true,	
 } )
 
 // -----------------------------------------------------------------
@@ -79,7 +103,7 @@ hook.Add( "HUDPaint", "GWZHudPaint", function()
 	if pPlayer:IsSuperAdmin() then
 		surface.SetDrawColor( 196, 192, 180, 205 )
 		surface.SetMaterial( m_sHosterStar )
-		surface.DrawTexturedRect( 126 , ScrH() - 177, 16, 16 )
+		surface.DrawTexturedRect( 126 , ScrH() - 179, 16, 16 )
 	end
 
 	
@@ -183,9 +207,9 @@ hook.Add( "HUDPaint", "GWZHudPaint", function()
 			surface.DrawTexturedRect( 463 , ScrH() - 135, 100, 35 )	
 		end
 				
-		surface.SetFont( "GWZ_Small" )
+		surface.SetFont( "GWZ_SmallNoShadow" )
 		surface.SetTextColor( 0, 0, 0 )
-		surface.SetTextPos( 475 , ScrH() - 130 ) 
+		surface.SetTextPos( 476 , ScrH() - 128 ) 
 		surface.DrawText( m_inputWarzoneArmorText )			
 	end
 	
@@ -250,9 +274,9 @@ hook.Add( "HUDPaint", "GWZHudPaint", function()
 			surface.DrawTexturedRect( 463 , ScrH() - 135, 100, 35 )	
 		end
 		
-		surface.SetFont( "GWZ_Small" )
+		surface.SetFont( "GWZ_SmallNoShadow" )
 		surface.SetTextColor( 64, 64, 64 )
-		surface.SetTextPos( 475 , ScrH() - 130 ) 
+		surface.SetTextPos( 476 , ScrH() - 128 ) 
 		surface.DrawText( m_inputWarzoneArmorText )			
 	end
 
