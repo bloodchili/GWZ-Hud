@@ -227,18 +227,14 @@ hook.Add( "HUDPaint", "GWZHudPaint", function()
 			surface.PlaySound("player/hit_armor_break_01.wav")
 			m_bAllowBreakSound = false
 		end
-	end
+	end	
 end )
 
 hook.Add( "HUDShouldDraw", "GWZ_HudShouldDraw", function( name )
 	if ( hide[ name ] ) and GetConVar("gwz_hud_enable"):GetBool() and GetConVar("cl_drawhud"):GetBool() then return false end
 end )
 
-hook.Add( "PostPlayerDeath", "Dever", function( pPlayer )
-	m_bAllowBreakSound = false`
-end )
-
-
-
-
- 
+gameevent.Listen( "player_spawn" )
+hook.Add("player_spawn", "RemoveWarzoneBreakSound", function( data )
+m_bAllowBreakSound = false
+end)
