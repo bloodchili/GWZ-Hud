@@ -91,24 +91,23 @@ hook.Add( "HUDPaint", "GWZHudPaint", function()
 	-- Draw transparent background with gradient
 	surface.SetDrawColor( 255, 255, 255, 205 )
 	surface.SetMaterial( m_sBgGradient )
-	surface.DrawTexturedRect( 100 , ScrH() - 200, 394, 120 )
+	surface.DrawTexturedRect( 2 , ScrH() - 120, 394, 120 )
 	
 	-- Draw user's name in it's background
 	surface.SetFont( "GWZ_Small" )
 	surface.SetTextColor( 222, 218, 205 )
-	surface.SetTextPos( 150 , ScrH() - 180 ) 
+	surface.SetTextPos( 53 , ScrH() - 100 ) 
 	surface.DrawText( pPlayer:GetName() )
 	
 	-- Draw a star near player's name if he's superadmin
 	if pPlayer:IsSuperAdmin() then
 		surface.SetDrawColor( 196, 192, 180, 205 )
 		surface.SetMaterial( m_sHosterStar )
-		surface.DrawTexturedRect( 126 , ScrH() - 179, 16, 16 )
+		surface.DrawTexturedRect( 30 , ScrH() - 99, 16, 16 )
 	end
 
 	
-	-- Draw armor icon (VManip Warzone Armir plates)
-	
+	-- Draw armor icon (VManip Warzone Armir plates)	
 	m_inputWarzoneArmorText = "UNBOUND"
 	
 	m_inputWarzoneArmor = input.LookupBinding( "+armorplate" )
@@ -125,165 +124,165 @@ hook.Add( "HUDPaint", "GWZHudPaint", function()
 		if (m_inputWarzoneArmor && string.len(m_inputWarzoneArmor) == 1) then
 			surface.SetDrawColor( 255, 255, 255, 200 )
 			surface.SetMaterial( m_sArmorBox )
-			surface.DrawTexturedRect( 466 , ScrH() - 135, 30, 35 )
+			surface.DrawTexturedRect( 433 , ScrH() - 53, 30, 35 )
 
 			surface.SetDrawColor( 255, 255, 255, 250 )
 			surface.SetMaterial( m_sArmorIcon )
-			surface.DrawTexturedRect( 456 , ScrH() - 185, 50, 59 )
+			surface.DrawTexturedRect( 423 , ScrH() - 115, 50, 59 )
 			
 			surface.SetFont( "GWZ_Medium" )
 			surface.SetTextColor( 255, 255, 255 )
-			surface.SetTextPos( 510 , ScrH() - 167.6 ) 
+			surface.SetTextPos( 479 , ScrH() - 99 ) 
 			surface.DrawText( pPlayer:GetArmorPlates() )
 		end	
 		
 		if (m_inputWarzoneArmor && string.len(m_inputWarzoneArmor) == 2) then
 			surface.SetDrawColor( 255, 255, 255, 200 )
 			surface.SetMaterial( m_sArmorBox )
-			surface.DrawTexturedRect( 469 , ScrH() - 135, 40, 35 )
+			surface.DrawTexturedRect( 437 , ScrH() - 53, 32, 35 )
 
 			surface.SetDrawColor( 255, 255, 255, 250 )
 			surface.SetMaterial( m_sArmorIcon )
-			surface.DrawTexturedRect( 463 , ScrH() - 185, 50, 59 )
+			surface.DrawTexturedRect( 429 , ScrH() - 115, 50, 59 )
 			
 			surface.SetFont( "GWZ_Medium" )
 			surface.SetTextColor( 255, 255, 255 )
-			surface.SetTextPos( 517 , ScrH() - 167.6 ) 
-			surface.DrawText( pPlayer:GetArmorPlates() )	
+			surface.SetTextPos( 483 , ScrH() - 99 ) 
+			surface.DrawText( pPlayer:GetArmorPlates() )
 		end	
 		
 		if (m_inputWarzoneArmor && string.len(m_inputWarzoneArmor) == 3) then
 			surface.SetDrawColor( 255, 255, 255, 200 )
-			surface.SetMaterial( m_sArmorBoxMedium )
-			surface.DrawTexturedRect( 469 , ScrH() - 135, 40, 35 )
+			surface.SetMaterial( m_sArmorBox )
+			surface.DrawTexturedRect( 437, ScrH() - 53, 42, 35 )
 
 			surface.SetDrawColor( 255, 255, 255, 250 )
 			surface.SetMaterial( m_sArmorIcon )
-			surface.DrawTexturedRect( 463 , ScrH() - 185, 50, 59 )
+			surface.DrawTexturedRect( 433 , ScrH() - 115, 50, 59 )
 			
 			surface.SetFont( "GWZ_Medium" )
 			surface.SetTextColor( 255, 255, 255 )
-			surface.SetTextPos( 517 , ScrH() - 167.6 ) 
+			surface.SetTextPos( 488 , ScrH() - 99 ) 
 			surface.DrawText( pPlayer:GetArmorPlates() )	
 		end	
 
 		if (m_inputWarzoneArmor && string.len(m_inputWarzoneArmor) == 4) then
 			surface.SetDrawColor( 255, 255, 255, 200 )
 			surface.SetMaterial( m_sArmorBoxMedium )
-			surface.DrawTexturedRect( 465 , ScrH() - 135, 57, 35 )
+			surface.DrawTexturedRect( 436, ScrH() - 53, 60, 35 )
 
 			surface.SetDrawColor( 255, 255, 255, 250 )
 			surface.SetMaterial( m_sArmorIcon )
-			surface.DrawTexturedRect( 466 , ScrH() - 185, 50, 59 )
+			surface.DrawTexturedRect( 439 , ScrH() - 115, 50, 59 )
 			
 			surface.SetFont( "GWZ_Medium" )
 			surface.SetTextColor( 255, 255, 255 )
-			surface.SetTextPos( 517 , ScrH() - 167.6 ) 
-			surface.DrawText( pPlayer:GetArmorPlates() )
+			surface.SetTextPos( 492 , ScrH() - 99 ) 
+			surface.DrawText( pPlayer:GetArmorPlates() )	
 		end	
 
 		if (m_inputWarzoneArmor && string.len(m_inputWarzoneArmor) == 5) then
 			surface.SetDrawColor( 255, 255, 255, 200 )
 			surface.SetMaterial( m_sArmorBoxMedium )
-			surface.DrawTexturedRect( 465 , ScrH() - 135, 70, 35 )
+			surface.DrawTexturedRect( 436, ScrH() - 53, 65, 35 )
 
 			surface.SetDrawColor( 255, 255, 255, 250 )
 			surface.SetMaterial( m_sArmorIcon )
-			surface.DrawTexturedRect( 466 , ScrH() - 185, 50, 59 )
+			surface.DrawTexturedRect( 444 , ScrH() - 115, 50, 59 )
 			
 			surface.SetFont( "GWZ_Medium" )
 			surface.SetTextColor( 255, 255, 255 )
-			surface.SetTextPos( 517 , ScrH() - 167.6 ) 
+			surface.SetTextPos( 496 , ScrH() - 99 ) 
 			surface.DrawText( pPlayer:GetArmorPlates() )
 		end				
 			
 		if !m_inputWarzoneArmor then
 			surface.SetDrawColor( 255, 255, 255, 250 )
 			surface.SetMaterial( m_sArmorIcon )
-			surface.DrawTexturedRect( 488 , ScrH() - 185, 50, 59 )
+			surface.DrawTexturedRect( 455 , ScrH() - 115, 50, 59 )
 			
 			surface.SetDrawColor( 255, 255, 255, 255 )		
 			surface.SetMaterial( m_sArmorBoxUnbound )
-			surface.DrawTexturedRect( 463 , ScrH() - 135, 100, 35 )	
+			surface.DrawTexturedRect( 431 , ScrH() - 54, 104, 35 )	
 		end
 				
 		surface.SetFont( "GWZ_SmallNoShadow" )
 		surface.SetTextColor( 0, 0, 0 )
-		surface.SetTextPos( 476 , ScrH() - 128 ) 
+		surface.SetTextPos( 443.1 , ScrH() - 45.2 ) 
 		surface.DrawText( m_inputWarzoneArmorText )			
 	end
 	
 	if pPlayer:GetArmorPlates() == 0 then
 		if (m_inputWarzoneArmor && string.len(m_inputWarzoneArmor) == 1) then
-			surface.SetDrawColor( 255, 255, 255, 95 )
+			surface.SetDrawColor( 255, 255, 255, 90 )
 			surface.SetMaterial( m_sArmorBox )
-			surface.DrawTexturedRect( 466 , ScrH() - 135, 30, 35 )
+			surface.DrawTexturedRect( 433 , ScrH() - 53, 30, 35 )
 
-			surface.SetDrawColor( 255, 255, 255, 120 )
+			surface.SetDrawColor( 255, 255, 255, 150 )
 			surface.SetMaterial( m_sArmorIcon )
-			surface.DrawTexturedRect( 456 , ScrH() - 185, 50, 59 )
+			surface.DrawTexturedRect( 423 , ScrH() - 115, 50, 59 )
 		end	
 		
 		if (m_inputWarzoneArmor && string.len(m_inputWarzoneArmor) == 2) then
-			surface.SetDrawColor( 255, 255, 255, 95 )
+			surface.SetDrawColor( 255, 255, 255, 90 )
 			surface.SetMaterial( m_sArmorBox )
-			surface.DrawTexturedRect( 469 , ScrH() - 135, 40, 35 )
+			surface.DrawTexturedRect( 437 , ScrH() - 53, 32, 35 )
 
-			surface.SetDrawColor( 255, 255, 255, 250 )
+			surface.SetDrawColor( 255, 255, 255, 150 )
 			surface.SetMaterial( m_sArmorIcon )
-			surface.DrawTexturedRect( 463 , ScrH() - 185, 50, 59 )	
+			surface.DrawTexturedRect( 429 , ScrH() - 115, 50, 59 )
 		end	
 		
 		if (m_inputWarzoneArmor && string.len(m_inputWarzoneArmor) == 3) then
-			surface.SetDrawColor( 255, 255, 255, 95 )
-			surface.SetMaterial( m_sArmorBoxMedium )
-			surface.DrawTexturedRect( 469 , ScrH() - 135, 40, 35 )
+			surface.SetDrawColor( 255, 255, 255, 90 )
+			surface.SetMaterial( m_sArmorBox )
+			surface.DrawTexturedRect( 437, ScrH() - 53, 42, 35 )
 
-			surface.SetDrawColor( 255, 255, 255, 250 )
+			surface.SetDrawColor( 255, 255, 255, 150 )
 			surface.SetMaterial( m_sArmorIcon )
-			surface.DrawTexturedRect( 463 , ScrH() - 185, 50, 59 )	
+			surface.DrawTexturedRect( 433 , ScrH() - 115, 50, 59 )	
 		end	
 
 		if (m_inputWarzoneArmor && string.len(m_inputWarzoneArmor) == 4) then
-			surface.SetDrawColor( 255, 255, 255, 95 )
+			surface.SetDrawColor( 255, 255, 255, 90 )
 			surface.SetMaterial( m_sArmorBoxMedium )
-			surface.DrawTexturedRect( 465 , ScrH() - 135, 57, 35 )
+			surface.DrawTexturedRect( 436, ScrH() - 53, 60, 35 )
 
-			surface.SetDrawColor( 255, 255, 255, 250 )
+			surface.SetDrawColor( 255, 255, 255, 150 )
 			surface.SetMaterial( m_sArmorIcon )
-			surface.DrawTexturedRect( 466 , ScrH() - 185, 50, 59 )
+			surface.DrawTexturedRect( 439 , ScrH() - 115, 50, 59 )
 		end	
 
-		if (m_inputWarzoneArmor && string.len(m_inputWarzoneArmor) > 4) then
-			surface.SetDrawColor( 255, 255, 255, 95 )
+		if (m_inputWarzoneArmor && string.len(m_inputWarzoneArmor) == 5) then
+			surface.SetDrawColor( 255, 255, 255, 90 )
 			surface.SetMaterial( m_sArmorBoxMedium )
-			surface.DrawTexturedRect( 465 , ScrH() - 135, 57, 35 )
+			surface.DrawTexturedRect( 436, ScrH() - 53, 65, 35 )
 
-			surface.SetDrawColor( 255, 255, 255, 250 )
+			surface.SetDrawColor( 255, 255, 255, 150 )
 			surface.SetMaterial( m_sArmorIcon )
-			surface.DrawTexturedRect( 466 , ScrH() - 185, 50, 59 )
+			surface.DrawTexturedRect( 444 , ScrH() - 115, 50, 59 )
 		end				
-		
-		if !m_inputWarzoneArmor then		
-			surface.SetDrawColor( 255, 255, 255, 250 )
+			
+		if !m_inputWarzoneArmor then
+			surface.SetDrawColor( 255, 255, 255, 150 )
 			surface.SetMaterial( m_sArmorIcon )
-			surface.DrawTexturedRect( 488 , ScrH() - 185, 50, 59 )
+			surface.DrawTexturedRect( 455 , ScrH() - 115, 50, 59 )
 			
 			surface.SetDrawColor( 255, 255, 255, 255 )		
 			surface.SetMaterial( m_sArmorBoxUnbound )
-			surface.DrawTexturedRect( 463 , ScrH() - 135, 100, 35 )	
+			surface.DrawTexturedRect( 431 , ScrH() - 54, 104, 35 )	
 		end
 		
 		surface.SetFont( "GWZ_SmallNoShadow" )
-		surface.SetTextColor( 64, 64, 64 )
-		surface.SetTextPos( 476 , ScrH() - 128 ) 
+		surface.SetTextColor( 0, 0, 0 )
+		surface.SetTextPos( 443.1 , ScrH() - 45.2 ) 
 		surface.DrawText( m_inputWarzoneArmorText )			
 	end
 
 	
 	-- Draw health bar
 	surface.SetDrawColor( 61, 58, 56 )
-    surface.DrawRect(150 , ScrH() - 140, 171, 8)
+    surface.DrawRect(50 , ScrH() - 60, 171, 8)
 	
 	if pPlayer:Health() > 100 then
 		healthBarLenght = 171
@@ -292,89 +291,94 @@ hook.Add( "HUDPaint", "GWZHudPaint", function()
 	end
 	
 	surface.SetDrawColor( 222, 218, 205 )
-    surface.DrawRect(150 , ScrH() - 140, healthBarLenght, 8)
+    surface.DrawRect( 50 , ScrH() - 60, healthBarLenght, 8)
 	
 	-- Draw armor plates	
 	surface.SetDrawColor( 61, 58, 56 )
-	surface.DrawRect(150 , ScrH() - 155, 55, 8)
+	surface.DrawRect(50 , ScrH() - 73, 55, 8)
 		
 	surface.SetDrawColor( 61, 58, 56 )
-	surface.DrawRect(207 , ScrH() - 155, 55, 8)
+	surface.DrawRect(108 , ScrH() - 73, 55, 8)
 		
 	surface.SetDrawColor( 61, 58, 56 )
-	surface.DrawRect(264 , ScrH() - 155, 55, 8)
+	surface.DrawRect(166 , ScrH() - 73, 55, 8)
 	
-	if ( pPlayer:Armor() < 100 || pPlayer:Armor() == 100)  then 
+	
+------------------------------------------------------------------
+	if ( pPlayer:Armor() > 0 || pPlayer:Armor() == 8)  then 
+		armorBar1Lenght = 13.75
+	end	
+	
+	if ( pPlayer:Armor() > 8 || pPlayer:Armor() == 16)  then 
+		armorBar1Lenght = 27.5
+	end	
+	
+	if ( pPlayer:Armor() > 16 || pPlayer:Armor() == 24)  then 
+		armorBar1Lenght = 41.25
+	end	
+	
+	if ( pPlayer:Armor() > 24 || pPlayer:Armor() == 33)  then 
 		armorBar1Lenght = 55
-	end
-	if ( pPlayer:Armor() < 95 || pPlayer:Armor() == 95)  then 
-		armorBar1Lenght = 49
 	end	
-	if ( pPlayer:Armor() < 85 || pPlayer:Armor() == 85)  then 
-		armorBar1Lenght = 46
-	end		
-	if (pPlayer:Armor() < 80 || pPlayer:Armor() == 80)  then 
-		armorBar1Lenght = 35
-	end	
-	if (pPlayer:Armor() < 75 || pPlayer:Armor() == 75) then 
-		armorBar1Lenght = 24	
-	end		
-	if (pPlayer:Armor() < 70 || pPlayer:Armor() == 70) then 
- 		armorBar1Lenght = 13
-	end
+------------------------------------------------------------------
 	
-	if (pPlayer:Armor() < 60 || pPlayer:Armor() == 60) then 
- 		armorBar2Lenght = 50
+	if ( pPlayer:Armor() > 33 || pPlayer:Armor() == 41)  then 
+		armorBar2Lenght = 13.75
 	end	
-	if (pPlayer:Armor() < 55 || pPlayer:Armor() == 55) then 
- 		armorBar2Lenght = 35
-	end	
-	if (pPlayer:Armor() < 50 || pPlayer:Armor() == 50) then 
- 		armorBar2Lenght = 29
-	end	
-	if (pPlayer:Armor() < 45 || pPlayer:Armor() == 45) then 
- 		armorBar2Lenght = 24
-	end	
-	if (pPlayer:Armor() < 40 || pPlayer:Armor() == 40) then 
- 		armorBar2Lenght = 13
-	end
 	
-	if (pPlayer:Armor() < 25 || pPlayer:Armor() == 25) then 
- 		armorBar3Lenght = 50
-	end
-	if (pPlayer:Armor() < 20 || pPlayer:Armor() == 20) then 
- 		armorBar3Lenght = 36
-	end
-	if (pPlayer:Armor() < 15 || pPlayer:Armor() == 15) then 
- 		armorBar3Lenght = 24
+	if ( pPlayer:Armor() > 41 || pPlayer:Armor() == 49)  then 
+		armorBar2Lenght = 27.5
 	end	
-	if (pPlayer:Armor() < 10 || pPlayer:Armor() == 10) then 
- 		armorBar3Lenght = 13
-	end		
 	
-	if (pPlayer:Armor() == 100 || pPlayer:Armor() > 66) then 
-		surface.SetDrawColor( 58, 101, 181 )
-		surface.DrawRect(150, ScrH() - 155, 55, 8)
+	if ( pPlayer:Armor() > 49 || pPlayer:Armor() == 57)  then 
+		armorBar2Lenght = 41.25
+	end	
+	
+	if ( pPlayer:Armor() > 57 || pPlayer:Armor() == 66)  then 
+		armorBar2Lenght = 55
+	end	
+------------------------------------------------------------------
+	
+	if ( pPlayer:Armor() > 66 || pPlayer:Armor() == 74)  then 
+		armorBar3Lenght = 13.75
+	end	
+	
+	if ( pPlayer:Armor() > 74 || pPlayer:Armor() == 82)  then 
+		armorBar3Lenght = 27.5
+	end	
+	
+	if ( pPlayer:Armor() > 82 || pPlayer:Armor() == 90)  then 
+		armorBar3Lenght = 41.25
+	end
+			
+	if ( pPlayer:Armor() > 90 || pPlayer:Armor() == 100)  then 
+		armorBar3Lenght = 55
+	end	
+------------------------------------------------------------------
+	
+	if (pPlayer:Armor() > 66) then 
+		surface.SetDrawColor( 38, 95, 179 )
+		surface.DrawRect(50 , ScrH() - 73, 55, 8)
+			
+		surface.SetDrawColor( 38, 95, 179 )
+		surface.DrawRect(108 , ScrH() - 73, 55, 8)
+			
+		surface.SetDrawColor( 38, 95, 179 )
+		surface.DrawRect(166 , ScrH() - 73, armorBar3Lenght, 8)
+	end
+
+	if (pPlayer:Armor() > 33) then 
+		surface.SetDrawColor( 38, 95, 179 )
+		surface.DrawRect(50 , ScrH() - 73, 55, 8)
 		
-		surface.SetDrawColor( 58, 101, 181 )
-		surface.DrawRect(207 , ScrH() - 155, 55, 8)
-		
-		surface.SetDrawColor( 58, 101, 181 )
-		surface.DrawRect(264 , ScrH() - 155, armorBar1Lenght, 8)
+		surface.SetDrawColor( 38, 95, 179 )
+		surface.DrawRect(108 , ScrH() - 73, armorBar2Lenght, 8)
 	end
 	
-	if (pPlayer:Armor() == 66 || pPlayer:Armor() > 33) then
-		surface.SetDrawColor( 58, 101, 181 )
-		surface.DrawRect(150 , ScrH() - 155, 55, 8)
-		
-		surface.SetDrawColor( 58, 101, 181 )
-		surface.DrawRect(207 , ScrH() - 155, armorBar2Lenght, 8)
-	end
-	
-	if (pPlayer:Armor() == 33 || pPlayer:Armor() > 0) then
-		surface.SetDrawColor( 58, 101, 181 )
-		surface.DrawRect(150 , ScrH() - 155, armorBar3Lenght, 8)
-	end
+	if (pPlayer:Armor() > 0) then 
+		surface.SetDrawColor( 38, 95, 179 )
+		surface.DrawRect(50 , ScrH() - 73, armorBar1Lenght, 8)
+	end	
 	
 	if pPlayer:Armor() > 0 then
 		m_bAllowBreakSound = true
