@@ -4,13 +4,13 @@
 
 CreateClientConVar("gwz_hud_enable", 1, true, false, "Enable drawing Warzone-like hud")
 
-
 local pPlayer = LocalPlayer()
 local m_iPlayerColor = GetConVar("cl_playercolor")
 
 local m_bAllowBreakSound = false
 
 GWZ = {}
+GM = {}
 
 surface.CreateFont( "GWZ_Small", {
 	font = "Normative Pro Light",
@@ -50,6 +50,24 @@ surface.CreateFont( "GWZ_Numbers", {
 	antialias = true,	
 } )
 
+m_tPlayerHitSound = {
+	"player/blt_imp_flesh_npc_lyr_torso_03.wav",
+	"player/blt_imp_flesh_npc_lyr_torso_04.wav",		
+	"player/blt_imp_flesh_npc_lyr_torso_05.wav",		
+	"player/blt_imp_flesh_npc_lyr_torso_06.wav",	
+	"player/blt_imp_flesh_npc_lyr_torso_09.wav",		
+	"player/blt_imp_flesh_npc_lyr_torso_10.wav",		
+}
+
+m_tPlayerHitArmorSound = {
+	"player/blt_imp_flesh_npc_lyr_torso_03_armor.wav",
+	"player/blt_imp_flesh_npc_lyr_torso_04_armor.wav",		
+	"player/blt_imp_flesh_npc_lyr_torso_05_armor.wav",		
+	"player/blt_imp_flesh_npc_lyr_torso_06_armor.wav",	
+	"player/blt_imp_flesh_npc_lyr_torso_09_armor.wav",		
+	"player/blt_imp_flesh_npc_lyr_torso_10_armor.wav",		
+}
+
 // -----------------------------------------------------------------
 // Purpose: Client scheme for hud (to keep the idea from Modern 
 // Warfare / Warzone, I did not decide to do the ability to change 
@@ -61,6 +79,7 @@ surface.CreateFont( "GWZ_Numbers", {
 local m_sBgGradient = Material( "hud/bg_gradient.png" )
 local m_sHosterStar = Material( "hud/hoster_star.png" )
 
+local m_sArmorBreakFullScreen = Material( "hud/armor_broken_fullscreen.png" )
 local m_sArmorIcon = Material( "hud/armor_icon.png" )
 local m_sArmorBox = Material( "hud/armor_circle.png" )
 local m_sArmorBoxMedium = Material( "hud/armor_circle_med.png" )
@@ -88,6 +107,14 @@ hook.Add( "HUDPaint", "GWZHudPaint", function()
 	if !pPlayer:Alive() then return end
 	if !pPlayer:Alive() then m_bAllowBreakSound = false end
 	
+	-- Draw armor break under a all hud elements
+	if pPlayer:Armor() == 0 then
+		if 
+		surface.SetDrawColor( 145, 145, 145, 255 )
+		surface.SetMaterial( m_sArmorBreakFullScreen )
+		surface.DrawTexturedRect( 0 , 0, ScrW(), ScrH() )
+	end
+
 	-- Draw transparent background with gradient
 	surface.SetDrawColor( 255, 255, 255, 205 )
 	surface.SetMaterial( m_sBgGradient )
@@ -106,7 +133,6 @@ hook.Add( "HUDPaint", "GWZHudPaint", function()
 		surface.DrawTexturedRect( 30 , ScrH() - 99, 16, 16 )
 	end
 
-	
 	-- Draw armor icon (VManip Warzone Armir plates)	
 	m_inputWarzoneArmorText = "UNBOUND"
 	
@@ -355,7 +381,7 @@ hook.Add( "HUDPaint", "GWZHudPaint", function()
 		armorBar3Lenght = 55
 	end	
 ------------------------------------------------------------------
-	
+
 	if (pPlayer:Armor() > 66) then 
 		surface.SetDrawColor( 38, 95, 179 )
 		surface.DrawRect(50 , ScrH() - 73, 55, 8)
@@ -391,13 +417,13 @@ hook.Add( "HUDPaint", "GWZHudPaint", function()
 			m_bAllowBreakSound = false
 		end
 	end	
+	
+	gameevent.Listen( "player_spawn" )
+	hook.Add("player_spawn", "RemoveWarzoneBreakSound", function( data )
+		m_bAllowBreakSound = false
+	end)	
 end )
 
 hook.Add( "HUDShouldDraw", "GWZ_HudShouldDraw", function( name )
 	if ( hide[ name ] ) and GetConVar("gwz_hud_enable"):GetBool() and GetConVar("cl_drawhud"):GetBool() then return false end
 end )
-
-gameevent.Listen( "player_spawn" )
-hook.Add("player_spawn", "RemoveWarzoneBreakSound", function( data )
-m_bAllowBreakSound = false
-end)
