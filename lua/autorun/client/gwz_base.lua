@@ -1,17 +1,23 @@
+// ===========================================================================
+// Warzone-like hud for Garry's Mod by URAKOLOUY5
+// ===========================================================================
+
 // -----------------------------------------------------------------
 // Purpose: Create all necessities for GWZ-hud
 // -----------------------------------------------------------------
 
+-- Main convars
 CreateClientConVar("gwz_hud_enable", 1, true, false, "Enable drawing Warzone-like hud")
 
+-- Main ints
 local pPlayer = LocalPlayer()
 local m_iPlayerColor = GetConVar("cl_playercolor")
 
-local m_bAllowBreakSound = false
+local m_bAllowBreakEffect = false
 
 GWZ = {}
-GM = {}
 
+-- Scheme fonts
 surface.CreateFont( "GWZ_Small", {
 	font = "Normative Pro Light",
 	extended = false,
@@ -50,32 +56,17 @@ surface.CreateFont( "GWZ_Numbers", {
 	antialias = true,	
 } )
 
-m_tPlayerHitSound = {
-	"player/blt_imp_flesh_npc_lyr_torso_03.wav",
-	"player/blt_imp_flesh_npc_lyr_torso_04.wav",		
-	"player/blt_imp_flesh_npc_lyr_torso_05.wav",		
-	"player/blt_imp_flesh_npc_lyr_torso_06.wav",	
-	"player/blt_imp_flesh_npc_lyr_torso_09.wav",		
-	"player/blt_imp_flesh_npc_lyr_torso_10.wav",		
-}
-
-m_tPlayerHitArmorSound = {
-	"player/blt_imp_flesh_npc_lyr_torso_03_armor.wav",
-	"player/blt_imp_flesh_npc_lyr_torso_04_armor.wav",		
-	"player/blt_imp_flesh_npc_lyr_torso_05_armor.wav",		
-	"player/blt_imp_flesh_npc_lyr_torso_06_armor.wav",	
-	"player/blt_imp_flesh_npc_lyr_torso_09_armor.wav",		
-	"player/blt_imp_flesh_npc_lyr_torso_10_armor.wav",		
-}
-
 // -----------------------------------------------------------------
 // Purpose: Client scheme for hud (to keep the idea from Modern 
 // Warfare / Warzone, I did not decide to do the ability to change 
 // colors in the hud)
 // -----------------------------------------------------------------
 
-// local m_clHud = color(255, 255, 255, 255)
+-- Colors
+local m_clMainBright = Color( 222, 218, 205 )
+local m_clMainDark = Color( 61, 58, 56 )
 
+-- Textures
 local m_sBgGradient = Material( "hud/bg_gradient.png" )
 local m_sHosterStar = Material( "hud/hoster_star.png" )
 
@@ -93,7 +84,8 @@ local m_sArmorBoxUnbound = Material( "hud/armor_circle_unbound.png" )
 function GWZ.DrawPlayersInfo()
 end
 
-local hide = {
+local hide = 
+{
 	["CHudHealth"] = true,
 	["CHudBattery"] = true,
 	--["CHudAmmo"] = true,
@@ -105,16 +97,41 @@ hook.Add( "HUDPaint", "GWZHudPaint", function()
 	local pPlayer = LocalPlayer()
 	if !GetConVar("gwz_hud_enable"):GetBool() or !GetConVar("cl_drawhud"):GetBool() then return end
 	if !pPlayer:Alive() then return end
-	if !pPlayer:Alive() then m_bAllowBreakSound = false end
+	if !pPlayer:Alive() then m_bAllowBreakEffect = false end
 	
 	-- Draw armor break under a all hud elements
+	GWZ:ApplyArmorBreakEffect() 
+	
+	-- Draw user's info in bottom left corner
+	GWZ:DrawUserInfo() 
+	
+	gameevent.Listen( "player_spawn" )
+	hook.Add("player_spawn", "RemoveWarzoneBreakSound", function( data )
+		m_bAllowBreakEffect = false
+	end)	
+end )
+
+hook.Add( "HUDShouldDraw", "GWZ_HudShouldDraw", function( name )
+	if ( hide[ name ] ) and GetConVar("gwz_hud_enable"):GetBool() and GetConVar("cl_drawhud"):GetBool() then return false end
+end )
+
+function GWZ:ApplyArmorBreakEffect() 
 	if pPlayer:Armor() == 0 then
-		if 
 		surface.SetDrawColor( 145, 145, 145, 255 )
 		surface.SetMaterial( m_sArmorBreakFullScreen )
 		surface.DrawTexturedRect( 0 , 0, ScrW(), ScrH() )
 	end
+	
+	-- Play armor break sound when it's broked by enemy
+	if pPlayer:Armor() == 0 then
+		if m_bAllowBreakEffect == true then
+			surface.PlaySound("player/hit_armor_break_01.wav")
+			m_bAllowBreakEffect = false
+		end
+	end	
+end
 
+function GWZ:DrawUserInfo() 
 	-- Draw transparent background with gradient
 	surface.SetDrawColor( 255, 255, 255, 205 )
 	surface.SetMaterial( m_sBgGradient )
@@ -122,7 +139,7 @@ hook.Add( "HUDPaint", "GWZHudPaint", function()
 	
 	-- Draw user's name in it's background
 	surface.SetFont( "GWZ_Small" )
-	surface.SetTextColor( 222, 218, 205 )
+	surface.SetTextColor( m_clMainBright )
 	surface.SetTextPos( 53 , ScrH() - 100 ) 
 	surface.DrawText( pPlayer:GetName() )
 	
@@ -307,7 +324,7 @@ hook.Add( "HUDPaint", "GWZHudPaint", function()
 
 	
 	-- Draw health bar
-	surface.SetDrawColor( 61, 58, 56 )
+	surface.SetDrawColor( m_clMainDark )
     surface.DrawRect(50 , ScrH() - 60, 171, 8)
 	
 	if pPlayer:Health() > 100 then
@@ -316,21 +333,21 @@ hook.Add( "HUDPaint", "GWZHudPaint", function()
 		healthBarLenght = pPlayer:Health() * 1.71
 	end
 	
-	surface.SetDrawColor( 222, 218, 205 )
+	surface.SetDrawColor( m_clMainBright )
     surface.DrawRect( 50 , ScrH() - 60, healthBarLenght, 8)
 	
 	-- Draw armor plates	
-	surface.SetDrawColor( 61, 58, 56 )
+	surface.SetDrawColor( m_clMainDark )
 	surface.DrawRect(50 , ScrH() - 73, 55, 8)
 		
-	surface.SetDrawColor( 61, 58, 56 )
+	surface.SetDrawColor( m_clMainDark )
 	surface.DrawRect(108 , ScrH() - 73, 55, 8)
 		
-	surface.SetDrawColor( 61, 58, 56 )
+	surface.SetDrawColor( m_clMainDark )
 	surface.DrawRect(166 , ScrH() - 73, 55, 8)
 	
 	
-------------------------------------------------------------------
+	------------------------------------------------------------------
 	if ( pPlayer:Armor() > 0 || pPlayer:Armor() == 8)  then 
 		armorBar1Lenght = 13.75
 	end	
@@ -346,7 +363,7 @@ hook.Add( "HUDPaint", "GWZHudPaint", function()
 	if ( pPlayer:Armor() > 24 || pPlayer:Armor() == 33)  then 
 		armorBar1Lenght = 55
 	end	
-------------------------------------------------------------------
+	------------------------------------------------------------------
 	
 	if ( pPlayer:Armor() > 33 || pPlayer:Armor() == 41)  then 
 		armorBar2Lenght = 13.75
@@ -363,7 +380,7 @@ hook.Add( "HUDPaint", "GWZHudPaint", function()
 	if ( pPlayer:Armor() > 57 || pPlayer:Armor() == 66)  then 
 		armorBar2Lenght = 55
 	end	
-------------------------------------------------------------------
+	------------------------------------------------------------------
 	
 	if ( pPlayer:Armor() > 66 || pPlayer:Armor() == 74)  then 
 		armorBar3Lenght = 13.75
@@ -380,7 +397,7 @@ hook.Add( "HUDPaint", "GWZHudPaint", function()
 	if ( pPlayer:Armor() > 90 || pPlayer:Armor() == 100)  then 
 		armorBar3Lenght = 55
 	end	
-------------------------------------------------------------------
+	------------------------------------------------------------------
 
 	if (pPlayer:Armor() > 66) then 
 		surface.SetDrawColor( 38, 95, 179 )
@@ -407,23 +424,6 @@ hook.Add( "HUDPaint", "GWZHudPaint", function()
 	end	
 	
 	if pPlayer:Armor() > 0 then
-		m_bAllowBreakSound = true
+		m_bAllowBreakEffect = true
 	end
-		
-	-- Play armor break sound when it's broked by enemy
-	if pPlayer:Armor() == 0 then
-		if m_bAllowBreakSound == true then
-			surface.PlaySound("player/hit_armor_break_01.wav")
-			m_bAllowBreakSound = false
-		end
-	end	
-	
-	gameevent.Listen( "player_spawn" )
-	hook.Add("player_spawn", "RemoveWarzoneBreakSound", function( data )
-		m_bAllowBreakSound = false
-	end)	
-end )
-
-hook.Add( "HUDShouldDraw", "GWZ_HudShouldDraw", function( name )
-	if ( hide[ name ] ) and GetConVar("gwz_hud_enable"):GetBool() and GetConVar("cl_drawhud"):GetBool() then return false end
-end )
+end
