@@ -15,14 +15,6 @@ sound.Add( {
     "player/blt_imp_flesh_npc_lyr_torso_10.wav"}                
 } )
 
-Convar_FallDamage = GetConVar("gwz_gameplay_falldamage"):GetInt()
-
-hook.Add( "GetFallDamage", "FallDamage", function( ply, speed )   
-    if (Convar_FallDamage >= 1) then
-        return ( speed / 9.8 )
-    end
-end )
-
 hook.Add("ScalePlayerDamage", "FleshHit", function (ply, hitgroup, dmginfo)
     if ( hitgroup == HITGROUP_HEAD ) then
         dmginfo:ScaleDamage( 2 )
