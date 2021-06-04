@@ -22,6 +22,8 @@ if CLIENT then
             antialias = true,
         } )
     end
+
+    CreateFonts()
     
     cvars.AddChangeCallback("gwz_hud_scale_multiplier", function()
         CreateFonts()
@@ -35,10 +37,17 @@ if CLIENT then
     local bgGradient = Material( "hud/bg_gradient.png" )
     local iconServerAdmin = Material( "hud/icon_serveradmin.png" )
 
+    local rect_darkbg = Color(61, 58, 56, 155)
+    local rect_lightbg = Color(197, 200, 191)
+    local rect_redbg = Color(183, 18, 26, 155)
+
     -- By default set is as false
     hud_isDisplayed = false
     background_alpha = 0
     text_alpha = 0
+    lowhp_alpha = 0
+
+    lenght = 169
 
     hook.Add( "HUDPaint", "GWZ_HealthPaint", function()
         if !GetConVar("gwz_hud_enable"):GetBool() or !GetConVar("cl_drawhud"):GetBool() then return end        
@@ -72,16 +81,37 @@ if CLIENT then
 
         -- Draw user's nickname
         surface.SetFont( "GWZ_SmallNickname" )
-        surface.SetTextColor( playerColor, text_alpha )
+        surface.SetTextColor( playerColor.r, playerColor.g, playerColor.b, text_alpha )
         surface.SetTextPos( ( 70 + hud_offset) * hud_scale, ScrH() - 98 * hud_scale - (hud_offset / 2)) 
         surface.DrawText( pPlayer:GetName() )
 
         -- Draw a star if user is a superadmin
         if pPlayer:IsSuperAdmin() then
-            surface.SetDrawColor( playerColor, text_alpha )
+            surface.SetDrawColor( playerColor.r, playerColor.g, playerColor.b, text_alpha )
             surface.SetMaterial( iconServerAdmin )
             surface.DrawTexturedRect( (45 + hud_offset) * hud_scale, ScrH() - 96 * hud_scale - (hud_offset / 2), 16 * hud_scale, 16 * hud_scale)
         end
 
+        local function sinlerp(t, from, to)
+            return from + math.sin(t * math.pi * 0.5) * (to - from)
+        end
+
+        --- Draw healthbar
+        -- Background
+        surface.SetDrawColor( rect_darkbg )
+        surface.DrawRect((70 + hud_offset) * hud_scale, ScrH() - 63 * hud_scale - (hud_offset / 2), 171 * hud_scale, 8 * hud_scale)
+
+        -- Foreground red
+        surface.SetDrawColor( rect_redbg )
+        start = SysTime()
+        lenght = Lerp(FrameTime() * 2, lenght, pPlayer:Health() * 1.69)
+        surface.DrawRect((71 + hud_offset) * hud_scale, ScrH() - 62 * hud_scale - (hud_offset / 2), lenght * hud_scale, 6 * hud_scale)
+
+        -- Foreground health
+        surface.SetDrawColor( rect_lightbg )
+        surface.DrawRect((71 + hud_offset) * hud_scale, ScrH() - 62 * hud_scale - (hud_offset / 2), pPlayer:Health() * 1.69 * hud_scale, 6 * hud_scale)
+
     end )
+
+    local pPlayer = LocalPlayer()   
 end
