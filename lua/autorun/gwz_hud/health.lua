@@ -11,6 +11,7 @@ if CLIENT then
     CreateClientConVar("gwz_hud_offset_from_corner", "0", true, false, "Offsets the HUD horizontally (minimum 1, maximum 100)")
     CreateClientConVar("gwz_hud_scale_multiplier", "1", true, false, "Scale of the HUD (minimum 0, maximum 5)")
 
+    // Shared fonts (for other hud elements too :D )
     function CreateFonts()
         multiplier = math.Clamp(GetConVar("gwz_hud_scale_multiplier"):GetFloat(), 1, 5)
         
@@ -44,7 +45,37 @@ if CLIENT then
             blursize = 1,
             size = multiplier * 30,
             antialias = true,
-        } )         
+        } )  
+        
+        surface.CreateFont( "GWZ_NumberBoldBlur", {
+            font = "Liberation Sans Bold",
+            extended = false,
+            blursize = 2,
+            size = multiplier * 50,
+            antialias = true,
+        } )
+
+        surface.CreateFont( "GWZ_NumberBold", {
+            font = "Liberation Sans Bold",
+            extended = false,
+            size = multiplier * 50,
+            antialias = true,
+        } )
+
+        surface.CreateFont( "GWZ_NumberBlur", {
+            font = "Liberation Sans",
+            extended = false,
+            blursize = 2,
+            size = multiplier * 30,
+            antialias = true,
+        } )
+        
+        surface.CreateFont( "GWZ_Number", {
+            font = "Liberation Sans",
+            extended = false,
+            size = multiplier * 30,
+            antialias = true,
+        } )        
     end
 
     CreateFonts()
