@@ -23,16 +23,16 @@ hook.Add( "HUDPaint", "GWZ_AmmoPaint", function()
         ammo1 = math.Clamp(weapon:Clip1(), 0, 9999)
         ammo1mag = math.Clamp(pPlayer:GetAmmoCount(weapon:GetPrimaryAmmoType()), 0, 9999)
         if (weapon:GetMaxClip1() > -1) then
-            draw.DrawText(ammo1, "GWZ_NumberBoldBlur",  ScrW() - 195, ScrH() - 130, Color( 0, 0, 0, 200 ), TEXT_ALIGN_RIGHT)
-            draw.DrawText(ammo1, "GWZ_NumberBold",  ScrW() - 197, ScrH() - 132, lightfg, TEXT_ALIGN_RIGHT)
+            draw.DrawText(ammo1, "GWZ_NumberBoldBlur", (ScrW() - 195) - hud_offset, ScrH() - 130 * hud_scale - (hud_offset / 2), Color( 0, 0, 0, 200 ), TEXT_ALIGN_RIGHT)
+            draw.DrawText(ammo1, "GWZ_NumberBold",  (ScrW() - 197) - hud_offset, ScrH() - 132 * hud_scale - (hud_offset / 2), lightfg, TEXT_ALIGN_RIGHT)
 
-            draw.DrawText(ammo1mag, "GWZ_NumberBlur",  ScrW() - 198, ScrH() - 90, Color( 0, 0, 0, 255 ), TEXT_ALIGN_RIGHT)
-            draw.DrawText(ammo1mag, "GWZ_Number",  ScrW() - 200, ScrH() - 90, light_darker_fg, TEXT_ALIGN_RIGHT)
+            draw.DrawText(ammo1mag, "GWZ_NumberBlur",  (ScrW() - 198) - hud_offset, ScrH() - 90 * hud_scale - (hud_offset / 2), Color( 0, 0, 0, 255 ), TEXT_ALIGN_RIGHT)
+            draw.DrawText(ammo1mag, "GWZ_Number",  (ScrW() - 200) - hud_offset, ScrH() - 90 * hud_scale - (hud_offset / 2), light_darker_fg, TEXT_ALIGN_RIGHT)
 
-            surface.SetDrawColor( 255, 255, 255, alpha )
-            surface.SetTexture( weapon.WepSelectIcon )
+            //surface.SetDrawColor( 255, 255, 255, alpha )
+            //surface.SetTexture( weapon.WepSelectIcon )
 
-            surface.DrawTexturedRect( ScrW() - 420, ScrH() - 132, 128, 64)
+            //surface.DrawTexturedRect( ScrW() - 420, ScrH() - 132, 128, 64)
         end 
     end
 end)
