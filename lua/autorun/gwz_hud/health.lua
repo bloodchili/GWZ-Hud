@@ -21,6 +21,30 @@ if CLIENT then
             size = multiplier * 18,
             antialias = true,
         } )
+
+        surface.CreateFont( "GWZ_VerySmall", {
+            font = "Open Sans",
+            extended = false,
+            size = multiplier * 28,
+            antialias = true,
+        } )
+
+        surface.CreateFont( "GWZ_Small", {
+            font = "Open Sans",
+            extended = false,
+            shadow = true,	
+            size = multiplier * 30,
+            antialias = true,
+        } )
+
+        surface.CreateFont( "GWZ_SmallBlur", {
+            font = "Open Sans",
+            extended = false,
+            shadow = true,
+            blursize = 1,
+            size = multiplier * 30,
+            antialias = true,
+        } )         
     end
 
     CreateFonts()
@@ -36,6 +60,7 @@ if CLIENT then
     -- Textures
     local bgGradient = Material( "hud/bg_gradient.png" )
     local iconServerAdmin = Material( "hud/icon_serveradmin.png" )
+    local iconArmor = Material( "hud/armor_icon.png", "smooth" )
     local bgArmorGrain = Material( "hud/bg_armor_grain.png", "noclamp")
 
     local rect_darkbg = Color(61, 58, 56, 155)
@@ -49,8 +74,13 @@ if CLIENT then
     light_background_alpha = 0
     text_alpha = 0
     lowhp_alpha = 0
+    armor_icon_alpha = 0
 
     allow_armorbreak_effect = false
+
+    textpos = 367
+    imagepos = 312
+    imageposoffset = 0
 
     lenght = 169
 
@@ -66,6 +96,7 @@ if CLIENT then
             text_alpha = Lerp(FrameTime() * 30, text_alpha, 255)
             dark_background_alpha = Lerp(FrameTime() * 30, dark_background_alpha, 155)
             light_background_alpha = Lerp(FrameTime() * 30, light_background_alpha, 191)
+            armor_icon_alpha = Lerp(FrameTime() * 30, armor_icon_alpha, 200)
         end
 
         if !pPlayer:Alive() then
@@ -74,6 +105,7 @@ if CLIENT then
             text_alpha = Lerp(FrameTime() * 50, text_alpha, 0)
             dark_background_alpha = Lerp(FrameTime() * 100, dark_background_alpha, 0)
             light_background_alpha = Lerp(FrameTime() * 50, light_background_alpha, 0)
+            armor_icon_alpha = Lerp(FrameTime() * 30, armor_icon_alpha, 0)            
 
             allow_armorbreak_effect = false;
         end
@@ -128,10 +160,10 @@ if CLIENT then
         surface.DrawRect( (64 + hud_offset) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset / 2), 63 * hud_scale, 10 * hud_scale )
 
         surface.SetDrawColor( rect_darkbg.r, rect_darkbg.g, rect_darkbg.b, dark_background_alpha )
-        surface.DrawRect( (131 + hud_offset) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset / 2), 63 * hud_scale, 10 * hud_scale )
+        surface.DrawRect( (130 + hud_offset) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset / 2), 63 * hud_scale, 10 * hud_scale )
 
         surface.SetDrawColor( rect_darkbg.r, rect_darkbg.g, rect_darkbg.b, dark_background_alpha )
-        surface.DrawRect( (198 + hud_offset) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset / 2), 63 * hud_scale, 10 * hud_scale )
+        surface.DrawRect( (197 + hud_offset) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset / 2), 63 * hud_scale, 10 * hud_scale )
         
         -- Armor chunks
         surface.SetDrawColor( 0, 130, 255, background_alpha )
@@ -142,12 +174,12 @@ if CLIENT then
         surface.SetDrawColor( 0, 130, 255, background_alpha )
         surface.SetMaterial( bgArmorGrain )
         armor2Lenght = math.Clamp((pPlayer:Armor() - 40) * 2.2, 0, 63)
-        surface.DrawTexturedRectUV( (131 + hud_scale) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset / 2), 0 + armor2Lenght * hud_scale, 10 * hud_scale, 0, 0, 63, 10 )
+        surface.DrawTexturedRectUV( (130 + hud_scale) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset / 2), 0 + armor2Lenght * hud_scale, 10 * hud_scale, 0, 0, 63, 10 )
 
         surface.SetDrawColor( 0, 130, 255, background_alpha )
         surface.SetMaterial( bgArmorGrain )
         armor3Lenght = math.Clamp((pPlayer:Armor() - 70) * 2.2, 0, 63)
-        surface.DrawTexturedRectUV( (198 + hud_scale) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset / 2), 0 + armor3Lenght * hud_scale, 10 * hud_scale, 0, 0, 63, 10 )
+        surface.DrawTexturedRectUV( (197 + hud_scale) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset / 2), 0 + armor3Lenght * hud_scale, 10 * hud_scale, 0, 0, 63, 10 )
 
         if (pPlayer:Armor() > 0 and pPlayer:Alive()) then
             allow_armorbreak_effect = true
@@ -158,8 +190,48 @@ if CLIENT then
             allow_armorbreak_effect = false            
         end
 
-        
+        if pcall(function() return pPlayer:GetArmorPlates() end) then 
+            -- Draw armor icon
+            surface.SetDrawColor( 255, 255, 255, armor_icon_alpha )
+            surface.SetMaterial( iconArmor )
+            surface.DrawTexturedRect( (imagepos + hud_offset) * hud_scale, ScrH() - 104 * hud_scale - (hud_offset / 2), 59 * hud_scale, 68 * hud_scale)
 
+            if pPlayer:GetArmorPlates() == 0 and pPlayer:Alive() then
+                armor_icon_alpha = Lerp(FrameTime() * 20, armor_icon_alpha, 70)
+            end
+
+            if pPlayer:GetArmorPlates() > 0 and pPlayer:Alive() then
+                armor_icon_alpha = Lerp(FrameTime() * 20, armor_icon_alpha, 200)
+
+                surface.SetFont( "GWZ_SmallBlur" )
+                surface.SetTextColor( 0, 0, 0, text_alpha )
+                surface.SetTextPos( ( imagepos + 54 + hud_offset) * hud_scale, ScrH() - 86 * hud_scale - (hud_offset / 2)) 
+                surface.DrawText( pPlayer:GetArmorPlates() )
+    
+                surface.SetFont( "GWZ_Small" )
+                surface.SetTextColor( 255, 255, 255, text_alpha )
+                surface.SetTextPos( ( (imagepos + 54) + hud_offset) * hud_scale, ScrH() - 85 * hud_scale - (hud_offset / 2)) 
+                surface.DrawText( pPlayer:GetArmorPlates() )                
+            end
+
+            bind = input.LookupBinding( "+armorplate" )
+            if bind == nil then
+                bindtext = "UNBOUND"
+            else
+                bindtext = string.upper(bind)
+            end
+
+            surface.SetFont( "GWZ_VerySmall" )
+            draw.RoundedBox(10 * (hud_scale / 2), (331.5 + hud_offset) * hud_scale, ScrH() - 40 * hud_scale - (hud_offset / 2), select(1, surface.GetTextSize(bindtext)) + (6 * hud_scale), 24 * hud_scale, Color(255, 255, 255, armor_icon_alpha) )
+
+            surface.SetTextColor( 0, 0, 0, text_alpha )
+            surface.SetTextPos( ( 334 + hud_offset) * hud_scale, ScrH() - 43 * hud_scale - (hud_offset / 2)) 
+
+            imageposoffset = select(1, surface.GetTextSize(bindtext))
+            imagepos = 308 + (imageposoffset / 2)
+
+            surface.DrawText(bindtext)
+        end
     end )
 
     local pPlayer = LocalPlayer()   
