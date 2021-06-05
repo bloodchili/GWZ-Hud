@@ -134,17 +134,17 @@ if CLIENT then
         surface.DrawRect( (198 + hud_offset) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset / 2), 63 * hud_scale, 10 * hud_scale )
         
         -- Armor chunks
-        surface.SetDrawColor( 0, 130, 255, 255 )
+        surface.SetDrawColor( 0, 130, 255, background_alpha )
         surface.SetMaterial( bgArmorGrain )
         armor1Lenght = math.Clamp((pPlayer:Armor() / 4) * 7.63, 0, 63)
         surface.DrawTexturedRectUV( (64 + hud_offset) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset / 2), 0 + armor1Lenght * hud_scale, 10 * hud_scale, 0, 0, 63, 10 )
 
-        surface.SetDrawColor( 0, 130, 255, 255 )
+        surface.SetDrawColor( 0, 130, 255, background_alpha )
         surface.SetMaterial( bgArmorGrain )
         armor2Lenght = math.Clamp((pPlayer:Armor() - 40) * 2.2, 0, 63)
         surface.DrawTexturedRectUV( (131 + hud_scale) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset / 2), 0 + armor2Lenght * hud_scale, 10 * hud_scale, 0, 0, 63, 10 )
 
-        surface.SetDrawColor( 0, 130, 255, 255 )
+        surface.SetDrawColor( 0, 130, 255, background_alpha )
         surface.SetMaterial( bgArmorGrain )
         armor3Lenght = math.Clamp((pPlayer:Armor() - 70) * 2.2, 0, 63)
         surface.DrawTexturedRectUV( (198 + hud_scale) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset / 2), 0 + armor3Lenght * hud_scale, 10 * hud_scale, 0, 0, 63, 10 )
@@ -157,7 +157,10 @@ if CLIENT then
             surface.PlaySound("player/hit_armor_break_01.wav")
             allow_armorbreak_effect = false            
         end
-    end )  
+
+        
+
+    end )
 
     local pPlayer = LocalPlayer()   
 end
