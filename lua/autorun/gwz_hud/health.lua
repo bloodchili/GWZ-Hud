@@ -16,7 +16,7 @@ if CLIENT then
         multiplier = math.Clamp(GetConVar("gwz_hud_scale_multiplier"):GetFloat(), 1, 5)
         
         surface.CreateFont( "GWZ_SmallNickname", {
-            font = "Open Sans Light",
+            font = "Liberation Sans",
             extended = false,
             shadow = true,	
             size = multiplier * 18,
@@ -24,14 +24,14 @@ if CLIENT then
         } )
 
         surface.CreateFont( "GWZ_VerySmall", {
-            font = "Open Sans",
+            font = "Liberation Sans",
             extended = false,
             size = multiplier * 28,
             antialias = true,
         } )
 
         surface.CreateFont( "GWZ_Small", {
-            font = "Open Sans",
+            font = "Liberation Sans",
             extended = false,
             shadow = true,	
             size = multiplier * 30,
@@ -39,7 +39,7 @@ if CLIENT then
         } )
 
         surface.CreateFont( "GWZ_SmallBlur", {
-            font = "Open Sans",
+            font = "Liberation Sans",
             extended = false,
             shadow = true,
             blursize = 1,
