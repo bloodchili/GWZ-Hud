@@ -53,20 +53,11 @@ if CLIENT then
                 draw.DrawText(ammo1mag, "GWZ_Number",  (ScrW() - 200) - hud_offset, ScrH() - 90 * hud_scale - (hud_offset / 2), light_darker_fg, TEXT_ALIGN_RIGHT)
             end  
 
-            -- surface.SetDrawColor( 255, 255, 255, alpha )
-            -- //print(weapon:GetClass())
-
-            -- surface.SetTexture( weapon.WepSelectIcon )
-
-            -- for _,gun in pairs(hl2weapons) do
-                -- if (weapon:GetClass() == gun) then
-                    -- surface.SetTexture( 0 )
-                    -- isFontWeapon = true
-                -- end                   
-            -- end      
-      
-
-            -- surface.DrawTexturedRect( ScrW() - 420, ScrH() - 132, 128, 64)        
+            if weapon.WepSelectIcon ~= null then
+                surface.SetDrawColor( 255, 255, 255, alpha )
+                surface.SetTexture( weapon.WepSelectIcon )
+                surface.DrawTexturedRect( ScrW() - 420, ScrH() - 132, 128, 64)
+            end
         end
     end)
 end
