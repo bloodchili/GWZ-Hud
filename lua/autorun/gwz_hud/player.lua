@@ -82,6 +82,7 @@ hook.Add( "PlayerDeath", "PlayerDeathSound", function( victim, inflictor, attack
     -- Send data about attacker
     net.Start(NET);
     net.WriteBool(attacker == victim);
+    net.WriteBool(attacker:GetClass() == "worldspawn");
     net.Send(victim);
 end )
 
@@ -89,13 +90,15 @@ end
 
 if CLIENT then
     local wasSuicide = false
+    local wasWorldspawn = false
     
     net.Receive(NET, function(len)
         wasSuicide = net.ReadBool()
+        wasWorldspawn = net.ReadBool()
     end);
 
     hook.Add("HUDPaint", "GWZ_DeathScreen", function()
-        if (!wasSuicide and !LocalPlayer():Alive() and !isPlayedDeathSound) then
+        if (!wasSuicide and !wasWorldspawn and !LocalPlayer():Alive() and !isPlayedDeathSound) then
         surface.PlaySound("player/plr_death_by_kill.wav")
         isPlayedDeathSound = true
     end
