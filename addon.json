@@ -1,0 +1,6 @@
+{
+"title" : "GWZ HUD",
+"type" : "gamemode",
+"tags" : "roleplay",
+"ignore" : ["*.psd", "*.vcproj", "*.svn*"]
+}

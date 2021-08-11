@@ -1,7 +1,7 @@
 
 GWZ = {}
 
--- Inspired (and copied) by DyaMetR's dev
+-- Inspired (and copied) by DyaMetR's dev (I've planned do this in every single lua file)
 function GWZ:IncludeFile(file)
     if SERVER then
       include(file);
@@ -18,3 +18,5 @@ GWZ:IncludeFile("gwz_hud/player.lua")
 
 GWZ:IncludeFile("gwz_hud/health.lua")
 GWZ:IncludeFile("gwz_hud/ammo.lua")
+
+GWZ:IncludeFile("gwz_hud/armorbreak.lua")

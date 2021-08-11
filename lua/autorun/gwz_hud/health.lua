@@ -3,17 +3,17 @@
 ----------------------------------------------------
 
 if CLIENT then
-    local hide = {
+    local hidehealth = {
         ["CHudHealth"] = true,
         ["CHudBattery"] = true
     }
 
     CreateClientConVar("gwz_hud_offset_from_corner", "0", true, false, "Offsets the HUD horizontally (minimum 1, maximum 100)")
-    CreateClientConVar("gwz_hud_scale_multiplier", "1", true, false, "Scale of the HUD (minimum 0, maximum 5)")
+    CreateClientConVar("gwz_hud_scale_multiplier", "1", true, false, "Scale of the HUD (minimum 1, maximum 5)")
 
     // Shared fonts (for other hud elements too :D )
     function CreateFonts()
-        multiplier = math.Clamp(GetConVar("gwz_hud_scale_multiplier"):GetFloat(), 1, 5)
+        multiplier = math.Clamp(GetConVar("gwz_hud_scale_multiplier"):GetFloat(), 0.2, 5)
         
         surface.CreateFont( "GWZ_SmallNickname", {
             font = "Liberation Sans",
@@ -84,8 +84,8 @@ if CLIENT then
         CreateFonts()
     end)
 
-    hook.Add( "HUDShouldDraw", "HideHUD", function( name )
-        if ( hide[ name ] ) and GetConVar("gwz_hud_enable"):GetBool() and GetConVar("cl_drawhud"):GetBool() then return false end
+    hook.Add( "HUDShouldDraw", "GWZ_HealthHideHUD", function( name )
+        if ( hidehealth[ name ] ) and GetConVar("gwz_hud_enable"):GetBool() and GetConVar("cl_drawhud"):GetBool() then return false end
     end )
 
     -- Textures
@@ -197,20 +197,20 @@ if CLIENT then
         surface.DrawRect( (197 + hud_offset) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset / 2), 63 * hud_scale, 10 * hud_scale )
         
         -- Armor chunks
-        surface.SetDrawColor( 0, 130, 255, background_alpha )
-        surface.SetMaterial( bgArmorGrain )
+        surface.SetDrawColor( 0, 110, 200, background_alpha )
+        //surface.SetMaterial( bgArmorGrain )
         armor1Lenght = math.Clamp((pPlayer:Armor() / 4) * 7.63, 0, 63)
-        surface.DrawTexturedRectUV( (64 + hud_offset) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset / 2), 0 + armor1Lenght * hud_scale, 10 * hud_scale, 0, 0, 63, 10 )
+        surface.DrawRect( (64 + hud_offset) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset / 2), 0 + armor1Lenght * hud_scale, 10 * hud_scale, 0, 0, 63, 10 )
 
-        surface.SetDrawColor( 0, 130, 255, background_alpha )
-        surface.SetMaterial( bgArmorGrain )
+        surface.SetDrawColor( 0, 110, 200, background_alpha )
+        //surface.SetMaterial( bgArmorGrain )
         armor2Lenght = math.Clamp((pPlayer:Armor() - 40) * 2.2, 0, 63)
-        surface.DrawTexturedRectUV( (130 + hud_scale) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset / 2), 0 + armor2Lenght * hud_scale, 10 * hud_scale, 0, 0, 63, 10 )
+        surface.DrawRect( (130 + hud_offset) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset / 2), 0 + armor2Lenght * hud_scale, 10 * hud_scale, 0, 0, 63, 10 )
 
-        surface.SetDrawColor( 0, 130, 255, background_alpha )
-        surface.SetMaterial( bgArmorGrain )
+        surface.SetDrawColor( 0, 110, 200, background_alpha )
+        //surface.SetMaterial( bgArmorGrain )
         armor3Lenght = math.Clamp((pPlayer:Armor() - 70) * 2.2, 0, 63)
-        surface.DrawTexturedRectUV( (197 + hud_scale) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset / 2), 0 + armor3Lenght * hud_scale, 10 * hud_scale, 0, 0, 63, 10 )
+        surface.DrawRect( (197 + hud_offset) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset / 2), 0 + armor3Lenght * hud_scale, 10 * hud_scale, 0, 0, 63, 10 )
 
         if (pPlayer:Armor() > 0 and pPlayer:Alive()) then
             allow_armorbreak_effect = true
@@ -227,22 +227,26 @@ if CLIENT then
             surface.SetMaterial( iconArmor )
             surface.DrawTexturedRect( (imagepos + hud_offset) * hud_scale, ScrH() - 104 * hud_scale - (hud_offset / 2), 59 * hud_scale, 68 * hud_scale)
 
+            
             if pPlayer:GetArmorPlates() == 0 and pPlayer:Alive() then
                 armor_icon_alpha = Lerp(FrameTime() * 20, armor_icon_alpha, 70)
             end
 
-            if pPlayer:GetArmorPlates() > 0 and pPlayer:Alive() then
-                armor_icon_alpha = Lerp(FrameTime() * 20, armor_icon_alpha, 200)
+            // Fix spam of error in multiplayer at the first spawn
+            if pcall(function() if pPlayer:GetArmorPlates() > 0 then return true end end) then 
+                if pPlayer:GetArmorPlates() > 0 and pPlayer:Alive() then
+                    armor_icon_alpha = Lerp(FrameTime() * 20, armor_icon_alpha, 200)
 
-                surface.SetFont( "GWZ_SmallBlur" )
-                surface.SetTextColor( 0, 0, 0, text_alpha )
-                surface.SetTextPos( ( imagepos + 54 + hud_offset) * hud_scale, ScrH() - 86 * hud_scale - (hud_offset / 2)) 
-                surface.DrawText( pPlayer:GetArmorPlates() )
-    
-                surface.SetFont( "GWZ_Small" )
-                surface.SetTextColor( 255, 255, 255, text_alpha )
-                surface.SetTextPos( ( (imagepos + 54) + hud_offset) * hud_scale, ScrH() - 85 * hud_scale - (hud_offset / 2)) 
-                surface.DrawText( pPlayer:GetArmorPlates() )                
+                    surface.SetFont( "GWZ_SmallBlur" )
+                    surface.SetTextColor( 0, 0, 0, text_alpha )
+                    surface.SetTextPos( ( imagepos + 54 + hud_offset) * hud_scale, ScrH() - 86 * hud_scale - (hud_offset / 2)) 
+                    surface.DrawText( pPlayer:GetArmorPlates() )
+        
+                    surface.SetFont( "GWZ_Small" )
+                    surface.SetTextColor( 255, 255, 255, text_alpha )
+                    surface.SetTextPos( ( (imagepos + 54) + hud_offset) * hud_scale, ScrH() - 85 * hud_scale - (hud_offset / 2)) 
+                    surface.DrawText( pPlayer:GetArmorPlates() )                
+                end
             end
 
             bind = input.LookupBinding( "+armorplate" )
