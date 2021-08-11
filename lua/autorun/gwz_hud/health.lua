@@ -178,12 +178,12 @@ if CLIENT then
         -- Foreground red
         surface.SetDrawColor( rect_redbg.r, rect_redbg.g, rect_redbg.b, dark_background_alpha )
         start = SysTime()
-        lenght = Lerp(FrameTime() * 2, lenght, pPlayer:Health() * 1.95)
+        lenght = Lerp(FrameTime() * 2, lenght, math.Clamp(pPlayer:Health() * 1.95, 0, 195))
         surface.DrawRect((65 + hud_offset) * hud_scale, ScrH() - 64 * hud_scale - (hud_offset / 2), lenght * hud_scale, 6 * hud_scale)
 
         -- Foreground health
         surface.SetDrawColor( rect_lightbg.r, rect_lightbg.g, rect_lightbg.b, light_background_alpha )
-        surface.DrawRect((65 + hud_offset) * hud_scale, ScrH() - 64 * hud_scale - (hud_offset / 2), pPlayer:Health() * 1.95 * hud_scale, 6 * hud_scale)
+        surface.DrawRect((65 + hud_offset) * hud_scale, ScrH() - 64 * hud_scale - (hud_offset / 2), math.Clamp(pPlayer:Health() * 1.95, 0, 195) * hud_scale, 6 * hud_scale)
 
         --- Draw armorbar   
         -- Background
