@@ -54,6 +54,7 @@ local isPlayedDeathSound = false;
 if SERVER then
 
 hook.Add("ScalePlayerDamage", "FleshHit", function (ply, hitgroup, dmginfo)
+    if !GetConVar("gwz_hud_enable"):GetBool() then return end
     ply:StopSound("Flesh.BulletImpact")
     if ( hitgroup == HITGROUP_HEAD ) then
         dmginfo:ScaleDamage( 2 )
@@ -73,6 +74,7 @@ hook.Add("ScalePlayerDamage", "FleshHit", function (ply, hitgroup, dmginfo)
 end )
 
 hook.Add( "PlayerHurt", "hurt_effect_fade", function( ply )
+    if !GetConVar("gwz_hud_enable"):GetBool() then return end
     ply:ScreenFade( SCREENFADE.IN, Color( 100, 0, 0, 128 ), 0.1, 0 )
 end )
 
@@ -98,6 +100,7 @@ if CLIENT then
     end);
 
     hook.Add("HUDPaint", "GWZ_DeathScreen", function()
+        if !GetConVar("gwz_hud_enable"):GetBool() then return end
         if (!wasSuicide and !wasWorldspawn and !LocalPlayer():Alive() and !isPlayedDeathSound) then
         surface.PlaySound("player/plr_death_by_kill.wav")
         isPlayedDeathSound = true
