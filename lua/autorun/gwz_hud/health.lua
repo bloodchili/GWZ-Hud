@@ -16,7 +16,7 @@ if CLIENT then
         multiplier = math.Clamp(GetConVar("gwz_hud_scale_multiplier"):GetFloat(), 0.2, 5)
         
         surface.CreateFont( "GWZ_SmallNickname", {
-            font = "Liberation Sans",
+            font = "Roag-UltraLight",
             extended = false,
             shadow = true,	
             size = multiplier * 18,
@@ -156,7 +156,7 @@ if CLIENT then
         -- Draw user's nickname
         surface.SetFont( "GWZ_SmallNickname" )
         surface.SetTextColor( playerColor.r, playerColor.g, playerColor.b, text_alpha )
-        surface.SetTextPos( ( 61 + hud_offset) * hud_scale, ScrH() - 98 * hud_scale - (hud_offset / 2)) 
+        surface.SetTextPos( ( 61 + hud_offset) * hud_scale, ScrH() - 99 * hud_scale - (hud_offset / 2)) 
         surface.DrawText( pPlayer:GetName() )
 
         -- Draw a star if user is a superadmin
