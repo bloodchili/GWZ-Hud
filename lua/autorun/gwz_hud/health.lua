@@ -19,7 +19,7 @@ if CLIENT then
             font = "Roag-UltraLight",
             extended = false,
             shadow = true,	
-            size = multiplier * 18,
+            size = multiplier * 16,
             antialias = true,
         } )
 
@@ -164,10 +164,6 @@ if CLIENT then
             surface.SetDrawColor( playerColor.r, playerColor.g, playerColor.b, text_alpha )
             surface.SetMaterial( iconServerAdmin )
             surface.DrawTexturedRect( (40 + hud_offset) * hud_scale, ScrH() - 98 * hud_scale - (hud_offset / 2), 16 * hud_scale, 16 * hud_scale)
-        end
-
-        local function sinlerp(t, from, to)
-            return from + math.sin(t * math.pi * 0.5) * (to - from)
         end
 
         --- Draw healthbar
