@@ -16,7 +16,7 @@ end
 
 if CLIENT then
   -- Configuration
-  local enabled = GetConVar( "gwz_hud_enable" )
+  local enabled = CreateClientConVar("gwz_hud_deathcamera_enable", 1, true, true);
   local mode = CreateClientConVar("gwz_hud_deathcamera_mode", 1, true, true);
 
   -- Variables

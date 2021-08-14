@@ -46,11 +46,11 @@ if CLIENT then
             ammo1 = math.Clamp(weapon:Clip1(), 0, 9999)
             ammo1mag = math.Clamp(pPlayer:GetAmmoCount(weapon:GetPrimaryAmmoType()), 0, 9999)
             if (weapon:GetMaxClip1() > -1) then
-                draw.DrawText(ammo1, "GWZ_NumberBoldBlur", (ScrW() - 195) - hud_offset, ScrH() - 130 * hud_scale - (hud_offset / 2), Color( 0, 0, 0, 200 ), TEXT_ALIGN_RIGHT)
-                draw.DrawText(ammo1, "GWZ_NumberBold",  (ScrW() - 197) - hud_offset, ScrH() - 132 * hud_scale - (hud_offset / 2), lightfg, TEXT_ALIGN_RIGHT)
+                draw.DrawText(ammo1, "GWZ_NumberBoldBlur", (ScrW() - 195) - hud_offset_h, ScrH() - 130 * hud_scale - (hud_offset_v / 2), Color( 0, 0, 0, 200 ), TEXT_ALIGN_RIGHT)
+                draw.DrawText(ammo1, "GWZ_NumberBold",  (ScrW() - 197) - hud_offset_h, ScrH() - 132 * hud_scale - (hud_offset_v / 2), lightfg, TEXT_ALIGN_RIGHT)
 
-                draw.DrawText(ammo1mag, "GWZ_NumberBlur",  (ScrW() - 198) - hud_offset, ScrH() - 90 * hud_scale - (hud_offset / 2), Color( 0, 0, 0, 255 ), TEXT_ALIGN_RIGHT)
-                draw.DrawText(ammo1mag, "GWZ_Number",  (ScrW() - 200) - hud_offset, ScrH() - 90 * hud_scale - (hud_offset / 2), light_darker_fg, TEXT_ALIGN_RIGHT)
+                draw.DrawText(ammo1mag, "GWZ_NumberBlur",  (ScrW() - 198) - hud_offset_h, ScrH() - 90 * hud_scale - (hud_offset_v / 2), Color( 0, 0, 0, 255 ), TEXT_ALIGN_RIGHT)
+                draw.DrawText(ammo1mag, "GWZ_Number",  (ScrW() - 200) - hud_offset_h, ScrH() - 90 * hud_scale - (hud_offset_v / 2), light_darker_fg, TEXT_ALIGN_RIGHT)
             end  
 
             if weapon.WepSelectIcon ~= null then

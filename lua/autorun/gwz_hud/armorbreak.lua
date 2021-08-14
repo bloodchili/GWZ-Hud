@@ -18,7 +18,11 @@ if CLIENT then
         if ( !IsValid( pPlayer ) ) then return end
 
         if pPlayer:Armor() == 0 and not isPlayed then
-            alpha = 255
+            if (!GetConVar("gwz_hud_reduce_effect"):GetBool()) then
+                alpha = 255;
+            else
+                alpha = 128;
+            end
             alphaCircle = 255
 
             circled_w = circled_original_w
@@ -30,7 +34,11 @@ if CLIENT then
             surface.SetMaterial( efArmorBreak )
             surface.DrawTexturedRect( 0, 0, ScrW(), ScrH() )
 
-            pPlayer:ScreenFade( SCREENFADE.IN, Color( 0, 80, 240, 32 ), 0.3, 0 )
+            if (!GetConVar("gwz_hud_reduce_effect"):GetBool()) then
+                pPlayer:ScreenFade( SCREENFADE.IN, Color( 0, 80, 240, 32 ), 0.3, 0 )
+            else
+                pPlayer:ScreenFade( SCREENFADE.IN, Color( 0, 80, 240, 8 ), 0.2, 0 )
+            end
 
             isPlayed = true;
         end

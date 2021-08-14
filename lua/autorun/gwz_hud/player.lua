@@ -75,7 +75,12 @@ end )
 
 hook.Add( "PlayerHurt", "hurt_effect_fade", function( ply )
     if !GetConVar("gwz_hud_enable"):GetBool() then return end
-    ply:ScreenFade( SCREENFADE.IN, Color( 100, 0, 0, 128 ), 0.1, 0 )
+    
+    if (!GetConVar("gwz_hud_reduce_effect"):GetBool()) then
+        ply:ScreenFade( SCREENFADE.IN, Color( 100, 0, 0, 128 ), 0.1, 0 );
+    else
+        ply:ScreenFade( SCREENFADE.IN, Color( 100, 0, 0, 32 ), 0.1, 0 );
+    end        
 end )
 
 util.AddNetworkString(NET)
@@ -93,6 +98,8 @@ end
 if CLIENT then
     local wasSuicide = false
     local wasWorldspawn = false
+
+    CreateClientConVar("gwz_hud_reduce_effect", 0, true, true);
     
     net.Receive(NET, function(len)
         wasSuicide = net.ReadBool()

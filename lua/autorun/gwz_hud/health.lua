@@ -2,13 +2,16 @@
 -- Health 
 ----------------------------------------------------
 
+CreateConVar( "gwz_hud_server_realism_mode", "0", FCVAR_LUA_SERVER, false)
+
 if CLIENT then
     local hidehealth = {
         ["CHudHealth"] = true,
         ["CHudBattery"] = true
     }
 
-    CreateClientConVar("gwz_hud_offset_from_corner", "0", true, false, "Offsets the HUD horizontally (minimum 1, maximum 100)")
+    CreateClientConVar("gwz_hud_offset_h", "0", true, false, "Offsets the HUD horizontally (minimum 1, maximum 100)")
+    CreateClientConVar("gwz_hud_offset_v", "0", true, false, "Offsets the HUD vertically (minimum 1, maximum 100)")
     CreateClientConVar("gwz_hud_scale_multiplier", "1", true, false, "Scale of the HUD (minimum 1, maximum 5)")
 
     // Shared fonts (for other hud elements too :D )
@@ -116,7 +119,8 @@ if CLIENT then
     lenght = 169
 
     hook.Add( "HUDPaint", "GWZ_HealthPaint", function()
-        if !GetConVar("gwz_hud_enable"):GetBool() or !GetConVar("cl_drawhud"):GetBool() then return end        
+        if !GetConVar("gwz_hud_enable"):GetBool() or !GetConVar("cl_drawhud"):GetBool() then return end
+        if GetConVar("gwz_hud_server_realism_mode"):GetBool() then return end
         if ( !IsValid( LocalPlayer() ) ) then return end
 
         local pPlayer = LocalPlayer()
@@ -141,13 +145,14 @@ if CLIENT then
             allow_armorbreak_effect = false;
         end
 
-        hud_offset = math.Clamp(GetConVar("gwz_hud_offset_from_corner"):GetInt(), 0, 100)
+        hud_offset_h = math.Clamp(GetConVar("gwz_hud_offset_h"):GetInt(), 0, 100)
+        hud_offset_v = math.Clamp(GetConVar("gwz_hud_offset_v"):GetInt(), 0, 100)
         hud_scale = math.Clamp(GetConVar("gwz_hud_scale_multiplier"):GetFloat(), 1, 5)
 
         -- Draw transparent background with gradient
         surface.SetDrawColor( 255, 255, 255, background_alpha )
         surface.SetMaterial( bgGradient )
-        surface.DrawTexturedRect( (35 + hud_offset) * hud_scale, ScrH() - 104 * hud_scale - (hud_offset / 2), 322 * hud_scale, 70 * hud_scale)
+        surface.DrawTexturedRect( (35 + hud_offset_h) * hud_scale, ScrH() - 104 * hud_scale - (hud_offset_v / 2), 322 * hud_scale, 70 * hud_scale)
 
         local playerColor = Vector( GetConVarString( "cl_playercolor" ) )
         playerColor = playerColor + Vector(0.45, 0.45, 0.45)
@@ -156,57 +161,57 @@ if CLIENT then
         -- Draw user's nickname
         surface.SetFont( "GWZ_SmallNickname" )
         surface.SetTextColor( playerColor.r, playerColor.g, playerColor.b, text_alpha )
-        surface.SetTextPos( ( 61 + hud_offset) * hud_scale, ScrH() - 99 * hud_scale - (hud_offset / 2)) 
+        surface.SetTextPos( ( 61 + hud_offset_h) * hud_scale, ScrH() - 99 * hud_scale - (hud_offset_v / 2)) 
         surface.DrawText( pPlayer:GetName() )
 
         -- Draw a star if user is a superadmin
         if pPlayer:IsSuperAdmin() then
             surface.SetDrawColor( playerColor.r, playerColor.g, playerColor.b, text_alpha )
             surface.SetMaterial( iconServerAdmin )
-            surface.DrawTexturedRect( (40 + hud_offset) * hud_scale, ScrH() - 98 * hud_scale - (hud_offset / 2), 16 * hud_scale, 16 * hud_scale)
+            surface.DrawTexturedRect( (40 + hud_offset_h) * hud_scale, ScrH() - 98 * hud_scale - (hud_offset_v / 2), 16 * hud_scale, 16 * hud_scale)
         end
 
         --- Draw healthbar
         -- Background
         surface.SetDrawColor( rect_darkbg.r, rect_darkbg.g, rect_darkbg.b, dark_background_alpha )
-        surface.DrawRect((64 + hud_offset) * hud_scale, ScrH() - 65 * hud_scale - (hud_offset / 2), 197 * hud_scale, 8 * hud_scale)
+        surface.DrawRect((64 + hud_offset_h) * hud_scale, ScrH() - 65 * hud_scale - (hud_offset_v / 2), 197 * hud_scale, 8 * hud_scale)
 
         -- Foreground red
         surface.SetDrawColor( rect_redbg.r, rect_redbg.g, rect_redbg.b, dark_background_alpha )
         start = SysTime()
         lenght = Lerp(FrameTime() * 2, lenght, math.Clamp(pPlayer:Health() * 1.95, 0, 195))
-        surface.DrawRect((65 + hud_offset) * hud_scale, ScrH() - 64 * hud_scale - (hud_offset / 2), lenght * hud_scale, 6 * hud_scale)
+        surface.DrawRect((65 + hud_offset_h) * hud_scale, ScrH() - 64 * hud_scale - (hud_offset_v / 2), lenght * hud_scale, 6 * hud_scale)
 
         -- Foreground health
         surface.SetDrawColor( rect_lightbg.r, rect_lightbg.g, rect_lightbg.b, light_background_alpha )
-        surface.DrawRect((65 + hud_offset) * hud_scale, ScrH() - 64 * hud_scale - (hud_offset / 2), math.Clamp(pPlayer:Health() * 1.95, 0, 195) * hud_scale, 6 * hud_scale)
+        surface.DrawRect((65 + hud_offset_h) * hud_scale, ScrH() - 64 * hud_scale - (hud_offset_v / 2), math.Clamp(pPlayer:Health() * 1.95, 0, 195) * hud_scale, 6 * hud_scale)
 
         --- Draw armorbar   
         -- Background
         surface.SetDrawColor( rect_darkbg.r, rect_darkbg.g, rect_darkbg.b, dark_background_alpha )
-        surface.DrawRect( (64 + hud_offset) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset / 2), 63 * hud_scale, 10 * hud_scale )
+        surface.DrawRect( (64 + hud_offset_h) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset_v / 2), 63 * hud_scale, 10 * hud_scale )
 
         surface.SetDrawColor( rect_darkbg.r, rect_darkbg.g, rect_darkbg.b, dark_background_alpha )
-        surface.DrawRect( (130 + hud_offset) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset / 2), 63 * hud_scale, 10 * hud_scale )
+        surface.DrawRect( (130 + hud_offset_h) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset_v / 2), 63 * hud_scale, 10 * hud_scale )
 
         surface.SetDrawColor( rect_darkbg.r, rect_darkbg.g, rect_darkbg.b, dark_background_alpha )
-        surface.DrawRect( (197 + hud_offset) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset / 2), 63 * hud_scale, 10 * hud_scale )
+        surface.DrawRect( (197 + hud_offset_h) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset_v / 2), 63 * hud_scale, 10 * hud_scale )
         
         -- Armor chunks
         surface.SetDrawColor( 0, 110, 200, background_alpha )
         //surface.SetMaterial( bgArmorGrain )
         armor1Lenght = math.Clamp((pPlayer:Armor() / 4) * 7.63, 0, 63)
-        surface.DrawRect( (64 + hud_offset) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset / 2), 0 + armor1Lenght * hud_scale, 10 * hud_scale, 0, 0, 63, 10 )
+        surface.DrawRect( (64 + hud_offset_h) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset_v / 2), 0 + armor1Lenght * hud_scale, 10 * hud_scale, 0, 0, 63, 10 )
 
         surface.SetDrawColor( 0, 110, 200, background_alpha )
         //surface.SetMaterial( bgArmorGrain )
         armor2Lenght = math.Clamp((pPlayer:Armor() - 40) * 2.2, 0, 63)
-        surface.DrawRect( (130 + hud_offset) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset / 2), 0 + armor2Lenght * hud_scale, 10 * hud_scale, 0, 0, 63, 10 )
+        surface.DrawRect( (130 + hud_offset_h) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset_v / 2), 0 + armor2Lenght * hud_scale, 10 * hud_scale, 0, 0, 63, 10 )
 
         surface.SetDrawColor( 0, 110, 200, background_alpha )
         //surface.SetMaterial( bgArmorGrain )
         armor3Lenght = math.Clamp((pPlayer:Armor() - 70) * 2.2, 0, 63)
-        surface.DrawRect( (197 + hud_offset) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset / 2), 0 + armor3Lenght * hud_scale, 10 * hud_scale, 0, 0, 63, 10 )
+        surface.DrawRect( (197 + hud_offset_h) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset_v / 2), 0 + armor3Lenght * hud_scale, 10 * hud_scale, 0, 0, 63, 10 )
 
         if (pPlayer:Armor() > 0 and pPlayer:Alive()) then
             allow_armorbreak_effect = true
@@ -221,7 +226,7 @@ if CLIENT then
             -- Draw armor icon
             surface.SetDrawColor( 255, 255, 255, armor_icon_alpha )
             surface.SetMaterial( iconArmor )
-            surface.DrawTexturedRect( (imagepos + hud_offset) * hud_scale, ScrH() - 104 * hud_scale - (hud_offset / 2), 59 * hud_scale, 68 * hud_scale)
+            surface.DrawTexturedRect( (imagepos + hud_offset_h) * hud_scale, ScrH() - 104 * hud_scale - (hud_offset_v / 2), 59 * hud_scale, 68 * hud_scale)
 
             
             if pPlayer:GetArmorPlates() == 0 and pPlayer:Alive() then
@@ -235,12 +240,12 @@ if CLIENT then
 
                     surface.SetFont( "GWZ_SmallBlur" )
                     surface.SetTextColor( 0, 0, 0, text_alpha )
-                    surface.SetTextPos( ( imagepos + 54 + hud_offset) * hud_scale, ScrH() - 86 * hud_scale - (hud_offset / 2)) 
+                    surface.SetTextPos( ( imagepos + 54 + hud_offset_h) * hud_scale, ScrH() - 86 * hud_scale - (hud_offset_v / 2)) 
                     surface.DrawText( pPlayer:GetArmorPlates() )
         
                     surface.SetFont( "GWZ_Small" )
                     surface.SetTextColor( 255, 255, 255, text_alpha )
-                    surface.SetTextPos( ( (imagepos + 54) + hud_offset) * hud_scale, ScrH() - 85 * hud_scale - (hud_offset / 2)) 
+                    surface.SetTextPos( ( (imagepos + 54) + hud_offset_h) * hud_scale, ScrH() - 85 * hud_scale - (hud_offset_v / 2)) 
                     surface.DrawText( pPlayer:GetArmorPlates() )                
                 end
             end
@@ -253,10 +258,10 @@ if CLIENT then
             end
 
             surface.SetFont( "GWZ_VerySmall" )
-            draw.RoundedBox(10 * (hud_scale / 2), (331.5 + hud_offset) * hud_scale, ScrH() - 40 * hud_scale - (hud_offset / 2), select(1, surface.GetTextSize(bindtext)) + (6 * hud_scale), 24 * hud_scale, Color(255, 255, 255, armor_icon_alpha) )
+            draw.RoundedBox(10 * (hud_scale / 2), (331.5 + hud_offset_h) * hud_scale, ScrH() - 40 * hud_scale - (hud_offset_v / 2), select(1, surface.GetTextSize(bindtext)) + (6 * hud_scale), 24 * hud_scale, Color(255, 255, 255, armor_icon_alpha) )
 
             surface.SetTextColor( 0, 0, 0, text_alpha )
-            surface.SetTextPos( ( 334 + hud_offset) * hud_scale, ScrH() - 43 * hud_scale - (hud_offset / 2)) 
+            surface.SetTextPos( ( 334 + hud_offset_h) * hud_scale, ScrH() - 43 * hud_scale - (hud_offset_v / 2)) 
 
             imageposoffset = select(1, surface.GetTextSize(bindtext))
             imagepos = 308 + (imageposoffset / 2)
