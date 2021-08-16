@@ -54,7 +54,7 @@ if CLIENT then
     };
 
     net.Receive( "StopNearDeathSound", function( len, ply )
-        timer.Simple(0.01, function()
+        timer.Simple(0.1, function()
             color_tab["$pp_colour_contrast"] = 1;
             color_tab["$pp_colour_colour"] = 1;        
         end)
