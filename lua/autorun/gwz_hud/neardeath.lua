@@ -14,6 +14,7 @@ start = 0;
 
 if CLIENT then
     local efVignette = Material( "hud/vignette.png" );
+    local postprocces = false
 
     sound.Add( {
         name = "neardeath",
@@ -41,10 +42,29 @@ if CLIENT then
     end;
 
     local color_tab = {
+        ["$pp_colour_addr"] = 0,
+        ["$pp_colour_addg"] = 0,
+        ["$pp_colour_addb"] = 0,
         ["$pp_colour_brightness"] = 0,
         ["$pp_colour_contrast"] = 1,
         ["$pp_colour_colour"] = 1,
+        ["$pp_colour_mulr"] = 0,
+        ["$pp_colour_mulg"] = 0,
+        ["$pp_colour_mulb"] = 0
     };
+
+    net.Receive( "StopNearDeathSound", function( len, ply )
+        timer.Simple(0.01, function()
+            color_tab["$pp_colour_contrast"] = 1;
+            color_tab["$pp_colour_colour"] = 1;        
+        end)
+
+        timer.Simple(0.1, function()
+            alpha = 0
+            neardeathend:Stop()
+            neardeath:Stop()
+        end)
+    end)
 
     hook.Add( "HUDPaint", "GWZ_NearDeath", function()
         pPlayer = LocalPlayer()
@@ -52,7 +72,6 @@ if CLIENT then
         if not neardeathend and not neardeath then
             neardeathend = CreateSound(pPlayer, "neardeath_end");
             neardeath = CreateSound(pPlayer, "neardeath");
-            print("CREATED FUCKING SOUNDS");
         end
 
         surface.SetDrawColor( 255, 255, 255, vignette_alpha );
@@ -60,7 +79,8 @@ if CLIENT then
         surface.DrawTexturedRect( 0, 0, ScrW(), ScrH() );
 
         if pPlayer:Alive() and pPlayer:Health() < 20 then
-            vignette_alpha = Lerp((SysTime() - start) / 0.1, vignette_alpha, 255);
+            postprocces = true
+            vignette_alpha = Lerp((SysTime() - start) / 0.005, vignette_alpha, 210);
             color_tab["$pp_colour_contrast"] = 1.3;
             color_tab["$pp_colour_colour"] = 0.53;
             neardeathend:Stop();
@@ -74,7 +94,8 @@ if CLIENT then
         end
 
         if pPlayer:Alive() and pPlayer:Health() > 20 then
-            vignette_alpha = Lerp((SysTime() - start) / 0.1, vignette_alpha, 0);
+            postprocces = false
+            vignette_alpha = Lerp((SysTime() - start) / 0.005, vignette_alpha, 0);
             color_tab["$pp_colour_contrast"] = 1;
             color_tab["$pp_colour_colour"] = 1;
             neardeath:Stop();
@@ -86,10 +107,25 @@ if CLIENT then
                 isPlayed_sndNearDeath = false;
             end
         end
-
     end)
 
     hook.Add("RenderScreenspaceEffects", "GWZ_NearDeathPostProcess", function()
+        if (postprocces) then   
             DrawColorModify( color_tab );
+        end
     end )
+end
+
+if SERVER then
+    util.AddNetworkString( "StopNearDeathSound" )
+    
+    hook.Add("PlayerSpawn", "GWZ_PlayerSpawnAfterNearDeath", function(ply)
+        net.Start("StopNearDeathSound")
+        net.Send(ply)
+    end)
+
+    hook.Add("PlayerDeath", "GWZ_PlayerDeathAfterNearDeath", function(ply)
+        net.Start("StopNearDeathSound")
+        net.Send(ply)
+    end)
 end

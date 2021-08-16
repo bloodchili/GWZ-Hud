@@ -1,3 +1,5 @@
+headshot = false
+
 sound.Add( {
     name = "GWZ.BulletImpactFleshTorso",
     channel = CHAN_AUTO,
@@ -57,6 +59,12 @@ hook.Add("ScalePlayerDamage", "FleshHit", function (ply, hitgroup, dmginfo)
     if !GetConVar("gwz_hud_enable"):GetBool() then return end
     ply:StopSound("Flesh.BulletImpact")
     if ( hitgroup == HITGROUP_HEAD ) then
+        print(headshot)
+        headshot = true
+        timer.Simple(1, function()
+            headshot = false
+            print(headshot)
+        end)
         dmginfo:ScaleDamage( 2 )
         ply:EmitSound("GWZ.BulletImpactFleshHead")
         ply:ViewPunchReset( 0 )
