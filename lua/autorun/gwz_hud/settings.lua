@@ -14,6 +14,7 @@ spawnmenu.AddToolMenuOption( "Options", "GWZ Hud", "GWZHudClient", "Client", "",
     panel:Help("Gameplay Features:")
     panel:AddControl( "Checkbox", { Label = "Enable deathscreen (WIP)", Command = "gwz_hud_deathcamera_enable", });
     panel:AddControl( "Checkbox", { Label = "Reduced effects", Command = "gwz_hud_reduce_effect", });
+    panel:AddControl( "Checkbox", { Label = "Classic hitmark sound", Command = "gwz_hud_hitmark_snd_style", });
 end);
 
 spawnmenu.AddToolMenuOption( "Options", "GWZ Hud", "GWZHudServer", "Server", "", "", function(panel)
@@ -22,5 +23,6 @@ spawnmenu.AddToolMenuOption( "Options", "GWZ Hud", "GWZHudServer", "Server", "",
     panel:Help("Game settings:")
     -- Realism mode (WIP)
     panel:AddControl( "Checkbox", { Label = "Max Realism Mode", Command = "gwz_hud_server_realism_mode", });
+    
 end);
 end);
