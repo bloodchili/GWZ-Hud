@@ -23,6 +23,7 @@ if CLIENT then
         pPlayer = LocalPlayer()
         if ( !IsValid( pPlayer ) ) then return end
 
+        hud_scale = math.Clamp( GetConVar("gwz_hud_scale_multiplier"):GetInt(), 1, 5)
         hud_offset_h = math.Clamp( GetConVar("gwz_hud_offset_h"):GetInt(), 0, 100)
         hud_offset_v = math.Clamp( GetConVar("gwz_hud_offset_v"):GetInt(), 0, 100)
     
