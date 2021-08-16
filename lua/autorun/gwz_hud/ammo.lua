@@ -1,4 +1,5 @@
 if CLIENT then
+    
     local hide = {
         ["CHudAmmo"] = true,
         ["CHudSecondaryAmmo"] = true
@@ -21,6 +22,9 @@ if CLIENT then
         if !GetConVar("gwz_hud_enable"):GetBool() or !GetConVar("cl_drawhud"):GetBool() then return end
         pPlayer = LocalPlayer()
         if ( !IsValid( pPlayer ) ) then return end
+
+        hud_offset_h = math.Clamp( GetConVar("gwz_hud_offset_h"):GetInt(), 0, 100)
+        hud_offset_v = math.Clamp( GetConVar("gwz_hud_offset_v"):GetInt(), 0, 100)
     
         weapon = pPlayer:GetActiveWeapon()
 
