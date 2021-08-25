@@ -197,9 +197,10 @@ if CLIENT then
 			DrawRedHitM = false 
 		end
 
+		local realism = GetConVar("gwz_hud_server_realism_mode"):GetInt() 
 		local materialname = bg_armorfull
 
-		if DrawHitM == true then
+		if (DrawHitM == true and realism ~= 1) then
 			-- Default icon
 			local w = (w_origin + hud_offset_h) * hud_scale
 			local h = h_origin * hud_scale - (hud_offset_v / 2)
