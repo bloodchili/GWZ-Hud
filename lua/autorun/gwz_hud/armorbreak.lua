@@ -29,7 +29,7 @@ if CLIENT then
             circled_h = circled_original_h
 
             -- Broken "glass" effect
-            alpha = Lerp(( SysTime() - start ) / 0.05, alpha, 0)
+            alpha = Lerp(( SysTime() - start ) / 0.0005, alpha, 0)
             surface.SetDrawColor( 255, 255, 255, alpha )
             surface.SetMaterial( efArmorBreak )
             surface.DrawTexturedRect( 0, 0, ScrW(), ScrH() )

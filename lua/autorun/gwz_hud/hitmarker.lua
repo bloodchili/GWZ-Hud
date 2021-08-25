@@ -214,14 +214,25 @@ if CLIENT then
 			local x_armor = (ScrW() / 2 - (w_armor / 2)) + 75
 			local y_armor = (ScrH() / 2 - (h_armor / 2)) + 56
 
-			alpha = Lerp((SysTime() - start) / 0.00009, alpha, 0)
-			alpha_armor = Lerp((SysTime() - start) / 0.0001, alpha_armor, 0)			
+			if (1 / RealFrameTime() > 15) then
+				alpha = Lerp(10 * RealFrameTime(), alpha, 0)
+				alpha_armor = Lerp(10 * RealFrameTime(), alpha_armor, 0)			
 
-			w_origin = Lerp((SysTime() - start) / 0.00029, w_origin, 54)
-			h_origin = Lerp((SysTime() - start) / 0.00029, h_origin, 54)
+				w_origin = Lerp(6 * RealFrameTime(), w_origin, 54)
+				h_origin = Lerp(6 * RealFrameTime(), h_origin, 54)
 
-			w_armor_origin = Lerp((SysTime() - start) / 0.00025, w_armor_origin, 22)
-			h_armor_origin = Lerp((SysTime() - start) / 0.00025, h_armor_origin, 32)
+				w_armor_origin = Lerp(10 * RealFrameTime(), w_armor_origin, 22)
+				h_armor_origin = Lerp(10 * RealFrameTime(), h_armor_origin, 32)
+			else
+				alpha = Lerp(5 * RealFrameTime(), alpha, 0)
+				alpha_armor = Lerp(5 * RealFrameTime(), alpha_armor, 0)			
+
+				w_origin = Lerp(6 * RealFrameTime(), w_origin, 54)
+				h_origin = Lerp(6 * RealFrameTime(), h_origin, 54)
+
+				w_armor_origin = Lerp(5 * RealFrameTime(), w_armor_origin, 22)
+				h_armor_origin = Lerp(5 * RealFrameTime(), h_armor_origin, 32)
+			end
 
 			if DrawRedHitM == true then
 				surface.SetDrawColor( 255, 0, 0, alpha )

@@ -80,7 +80,7 @@ if CLIENT then
 
         if pPlayer:Alive() and pPlayer:Health() < 20 then
             postprocces = true
-            vignette_alpha = Lerp((SysTime() - start) / 0.005, vignette_alpha, 210);
+            vignette_alpha = Lerp(10 * RealFrameTime(), vignette_alpha, 210);
             color_tab["$pp_colour_contrast"] = 1.3;
             color_tab["$pp_colour_colour"] = 0.53;
             neardeathend:Stop();
@@ -95,7 +95,7 @@ if CLIENT then
 
         if pPlayer:Alive() and pPlayer:Health() > 20 then
             postprocces = false
-            vignette_alpha = Lerp((SysTime() - start) / 0.005, vignette_alpha, 0);
+            vignette_alpha = Lerp(10 * RealFrameTime(), vignette_alpha, 0);
             color_tab["$pp_colour_contrast"] = 1;
             color_tab["$pp_colour_colour"] = 1;
             neardeath:Stop();
