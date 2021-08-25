@@ -61,8 +61,10 @@ if CLIENT then
 
         timer.Simple(0.1, function()
             alpha = 0
-            neardeathend:Stop()
-            neardeath:Stop()
+            if (neardeathend ~= nil and neardeath ~= nil) then
+                neardeathend:Stop()
+                neardeath:Stop()
+            end
         end)
     end)
 
@@ -120,7 +122,9 @@ if SERVER then
     util.AddNetworkString( "StopNearDeathSound" )
     
     hook.Add("PlayerSpawn", "GWZ_PlayerSpawnAfterNearDeath", function(ply)
-        net.Start("StopNearDeathSound")
+        if (ply:IsValid() then
+            net.Start("StopNearDeathSound")
+        end
         net.Send(ply)
     end)
 
