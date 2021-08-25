@@ -122,7 +122,7 @@ if SERVER then
     util.AddNetworkString( "StopNearDeathSound" )
     
     hook.Add("PlayerSpawn", "GWZ_PlayerSpawnAfterNearDeath", function(ply)
-        if (ply:IsValid() then
+        if (ply:IsValid()) then
             net.Start("StopNearDeathSound")
         end
         net.Send(ply)
