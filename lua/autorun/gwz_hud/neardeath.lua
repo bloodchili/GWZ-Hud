@@ -14,6 +14,7 @@ start = 0;
 
 if CLIENT then
     local efVignette = Material( "hud/vignette.png" );
+    local efBlood = Material( "hud/blood-overlay.png" );
     local postprocces = false
 
     sound.Add( {
@@ -72,7 +73,6 @@ if CLIENT then
         pPlayer = LocalPlayer()
 
         if not neardeathend and not neardeath then
-            neardeathend = CreateSound(pPlayer, "neardeath_end");
             neardeath = CreateSound(pPlayer, "neardeath");
         end
 
@@ -80,9 +80,15 @@ if CLIENT then
         surface.SetMaterial( efVignette );
         surface.DrawTexturedRect( 0, 0, ScrW(), ScrH() );
 
+        surface.SetDrawColor( 255, 255, 255, vignette_alpha );
+        surface.SetMaterial( efBlood );
+        surface.DrawTexturedRect( 0, 0, ScrW(), ScrH() );        
+
         if pPlayer:Alive() and pPlayer:Health() < 20 then
+            neardeathend = CreateSound(pPlayer, "neardeath_end");
+            
             postprocces = true
-            vignette_alpha = Lerp(10 * RealFrameTime(), vignette_alpha, 210);
+            vignette_alpha = Lerp(10 * RealFrameTime(), vignette_alpha, 225);
             color_tab["$pp_colour_contrast"] = 1.3;
             color_tab["$pp_colour_colour"] = 0.53;
             neardeathend:Stop();
@@ -101,12 +107,14 @@ if CLIENT then
             color_tab["$pp_colour_contrast"] = 1;
             color_tab["$pp_colour_colour"] = 1;
             neardeath:Stop();
-            -- Play end sound
-            if !neardeathend:IsPlaying() and !isPlayed_sndNearDeathEnd then
-                neardeathend:Play();
+            if (neardeathend ~= nil) then
+                -- Play end sound
+                if !neardeathend:IsPlaying() and !isPlayed_sndNearDeathEnd then
+                    neardeathend:Play();
 
-                isPlayed_sndNearDeathEnd = true;
-                isPlayed_sndNearDeath = false;
+                    isPlayed_sndNearDeathEnd = true;
+                    isPlayed_sndNearDeath = false;
+                end
             end
         end
     end)
@@ -114,6 +122,10 @@ if CLIENT then
     hook.Add("RenderScreenspaceEffects", "GWZ_NearDeathPostProcess", function()
         if (postprocces) then   
             DrawColorModify( color_tab );
+        end
+
+        if pPlayer:Alive() and pPlayer:Health() < 20 then
+            DrawMotionBlur( 0.17, 0.99, 0 )
         end
     end )
 end
