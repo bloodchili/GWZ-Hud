@@ -62,6 +62,7 @@ if SERVER then
 end
 
 if CLIENT then
+	
 	-- Declare our convars and variables
 	local enable = CreateClientConVar("gwz_hud_enable", "1", true, true)
 	local style = CreateClientConVar("gwz_hud_hitmark_snd_style", "0", true, true)
@@ -137,6 +138,8 @@ if CLIENT then
 	end)
 
 	function PlayDeathHitSound(ishead)
+		if !GetConVar("gwz_hud_enable"):GetBool() then return end
+		
 		if (ishead) then
 			local random = math.random(1, 3)
 			surface.PlaySound("alert/mp_headshot_indication_" .. random .. ".wav")
@@ -157,6 +160,8 @@ if CLIENT then
 		w_origin = size_random
 		h_origin = size_random	
 
+		if !GetConVar("gwz_hud_enable"):GetBool() then return end
+		
 		if (DrawRedHitM) then return end
         if style:GetInt() == 0 then
             surface.PlaySound("impacts/mp_hit_indication_3d.wav")
@@ -180,6 +185,8 @@ if CLIENT then
 		w_armor_origin = 22 + size_random
 		h_armor_origin = 32 + size_random
 
+        if !GetConVar("gwz_hud_enable"):GetBool() then return end
+
         if style:GetInt() == 0 then
             surface.PlaySound("impacts/mp_hit_indictation_3d_armor.wav")
             surface.PlaySound("impacts/mp_hit_indictation_3d_armor.wav")
@@ -190,6 +197,8 @@ if CLIENT then
 	end)
 	
 	hook.Add("HUDPaint", "HitmarkerDraw", function() 
+		if !GetConVar("gwz_hud_enable"):GetBool() then return end
+		
 		start = SysTime()
 		if enable:GetBool() == false then return end
 		if alpha == 0 and alpha_armor == 0 then 

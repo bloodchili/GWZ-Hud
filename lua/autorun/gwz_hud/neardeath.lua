@@ -70,7 +70,11 @@ if CLIENT then
     end)
 
     hook.Add( "HUDPaint", "GWZ_NearDeath", function()
+        if !GetConVar("gwz_hud_enable"):GetBool() then return end        
+
         pPlayer = LocalPlayer()
+
+        if ( !IsValid( pPlayer ) ) then return end
 
         if not neardeathend and not neardeath then
             neardeath = CreateSound(pPlayer, "neardeath");
@@ -120,11 +124,13 @@ if CLIENT then
     end)
 
     hook.Add("RenderScreenspaceEffects", "GWZ_NearDeathPostProcess", function()
+        if !GetConVar("gwz_hud_enable"):GetBool() then return end
+        
         if (postprocces) then   
             DrawColorModify( color_tab );
         end
 
-        if pPlayer:Alive() and pPlayer:Health() < 20 then
+        if LocalPlayer():IsValid() and LocalPlayer():Alive() and pPlayer:Health() < 20 then
             DrawMotionBlur( 0.17, 0.99, 0 )
         end
     end )
