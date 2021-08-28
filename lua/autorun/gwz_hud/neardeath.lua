@@ -6,6 +6,7 @@
 
 -- Variables
 vignette_alpha = 0
+blood_alpha = 0
 
 isPlayed_sndNearDeath = false
 isPlayed_sndNearDeathEnd = false
@@ -84,7 +85,7 @@ if CLIENT then
         surface.SetMaterial( efVignette );
         surface.DrawTexturedRect( 0, 0, ScrW(), ScrH() );
 
-        surface.SetDrawColor( 255, 255, 255, vignette_alpha );
+        surface.SetDrawColor( 255, 255, 255, blood_alpha );
         surface.SetMaterial( efBlood );
         surface.DrawTexturedRect( 0, 0, ScrW(), ScrH() );        
 
@@ -92,9 +93,16 @@ if CLIENT then
             neardeathend = CreateSound(pPlayer, "neardeath_end");
             
             postprocces = true
-            vignette_alpha = Lerp(10 * RealFrameTime(), vignette_alpha, 225);
-            color_tab["$pp_colour_contrast"] = 1.3;
-            color_tab["$pp_colour_colour"] = 0.53;
+            blood_alpha = Lerp(10 * RealFrameTime(), blood_alpha, 225);
+            if !GetConVar("gwz_hud_reduce_effect"):GetBool() then
+                vignette_alpha = Lerp(10 * RealFrameTime(), vignette_alpha, 225);
+                color_tab["$pp_colour_contrast"] = 1.3;
+                color_tab["$pp_colour_colour"] = 0.53;
+            else
+                color_tab["$pp_colour_contrast"] = 1;
+                color_tab["$pp_colour_colour"] = 1;
+                vignette_alpha = 0
+            end
             neardeathend:Stop();
 
             -- Play start sound
@@ -108,6 +116,7 @@ if CLIENT then
         if pPlayer:Alive() and pPlayer:Health() > 20 then
             postprocces = false
             vignette_alpha = Lerp(10 * RealFrameTime(), vignette_alpha, 0);
+            blood_alpha = Lerp(10 * RealFrameTime(), blood_alpha, 0);
             color_tab["$pp_colour_contrast"] = 1;
             color_tab["$pp_colour_colour"] = 1;
             neardeath:Stop();
@@ -130,7 +139,7 @@ if CLIENT then
             DrawColorModify( color_tab );
         end
 
-        if pPlayer:IsValid() and pPlayer:Alive() and pPlayer:Health() < 20 then
+        if pPlayer:IsValid() and pPlayer:Alive() and pPlayer:Health() < 20 and !GetConVar("gwz_hud_reduce_effect"):GetBool() then
             DrawMotionBlur( 0.17, 0.99, 0 )
         end
     end )
