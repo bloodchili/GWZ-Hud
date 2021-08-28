@@ -130,7 +130,7 @@ if CLIENT then
             DrawColorModify( color_tab );
         end
 
-        if LocalPlayer():IsValid() and LocalPlayer():Alive() and pPlayer:Health() < 20 then
+        if pPlayer:IsValid() and pPlayer:Alive() and pPlayer:Health() < 20 then
             DrawMotionBlur( 0.17, 0.99, 0 )
         end
     end )

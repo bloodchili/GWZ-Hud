@@ -23,6 +23,7 @@ GWZ:IncludeFile("gwz_hud/neardeath.lua")
 GWZ:IncludeFile("gwz_hud/deathcamera.lua")
 
 GWZ:IncludeFile("gwz_hud/armorbreak.lua")
+GWZ:IncludeFile("gwz_hud/attackindicator.lua")
 
 GWZ:IncludeFile("gwz_hud/health.lua")
 GWZ:IncludeFile("gwz_hud/ammo.lua")
