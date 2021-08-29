@@ -87,7 +87,12 @@ if CLIENT then
 
         surface.SetDrawColor( 255, 255, 255, blood_alpha );
         surface.SetMaterial( efBlood );
-        surface.DrawTexturedRect( 0, 0, ScrW(), ScrH() );        
+        surface.DrawTexturedRect( 0, 0, ScrW(), ScrH() );
+
+        if !pPlayer:Alive() then
+            vignette_alpha = 0
+            blood_alpha = 0
+        end
 
         if pPlayer:Alive() and pPlayer:Health() < 20 then
             neardeathend = CreateSound(pPlayer, "neardeath_end");

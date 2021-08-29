@@ -15,11 +15,11 @@ end
 
 GWZ:IncludeFile("gwz_hud/base.lua")
 
+GWZ:IncludeFile("gwz_hud/neardeath.lua")
 GWZ:IncludeFile("gwz_hud/settings.lua")
 
 GWZ:IncludeFile("gwz_hud/player.lua")
 GWZ:IncludeFile("gwz_hud/hitmarker.lua")
-GWZ:IncludeFile("gwz_hud/neardeath.lua")
 GWZ:IncludeFile("gwz_hud/deathcamera.lua")
 
 GWZ:IncludeFile("gwz_hud/armorbreak.lua")
