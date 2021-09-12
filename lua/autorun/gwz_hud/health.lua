@@ -14,7 +14,7 @@ if CLIENT then
     CreateClientConVar("gwz_hud_offset_v", "0", true, false, "Offsets the HUD vertically (minimum 1, maximum 100)")
     CreateClientConVar("gwz_hud_scale_multiplier", "1", true, false, "Scale of the HUD (minimum 1, maximum 5)")
 
-    // Shared fonts (for other hud elements too :D )
+    // Shared fonts (for other hud elements too )
     function CreateFonts()
         multiplier = math.Clamp(GetConVar("gwz_hud_scale_multiplier"):GetFloat(), 0.2, 5)
         
@@ -27,14 +27,14 @@ if CLIENT then
         } )
 
         surface.CreateFont( "GWZ_VerySmall", {
-            font = "Liberation Sans",
+            font = "Roag-Regular",
             extended = false,
             size = multiplier * 28,
             antialias = true,
         } )
 
         surface.CreateFont( "GWZ_Small", {
-            font = "Liberation Sans",
+            font = "Roag-UltraLight",
             extended = false,
             shadow = true,	
             size = multiplier * 30,
@@ -42,7 +42,7 @@ if CLIENT then
         } )
 
         surface.CreateFont( "GWZ_SmallBlur", {
-            font = "Liberation Sans",
+            font = "Roag-Light",
             extended = false,
             shadow = true,
             blursize = 1,
@@ -51,7 +51,7 @@ if CLIENT then
         } )  
         
         surface.CreateFont( "GWZ_NumberBoldBlur", {
-            font = "Liberation Sans Bold",
+            font = "Roag-Medium",
             extended = false,
             blursize = 2,
             size = multiplier * 50,
@@ -59,14 +59,14 @@ if CLIENT then
         } )
 
         surface.CreateFont( "GWZ_NumberBold", {
-            font = "Liberation Sans Bold",
+            font = "Roag-Medium",
             extended = false,
             size = multiplier * 50,
             antialias = true,
         } )
 
         surface.CreateFont( "GWZ_NumberBlur", {
-            font = "Liberation Sans",
+            font = "Roag-Regular",
             extended = false,
             blursize = 2,
             size = multiplier * 30,
@@ -74,7 +74,7 @@ if CLIENT then
         } )
         
         surface.CreateFont( "GWZ_Number", {
-            font = "Liberation Sans",
+            font = "Roag-Regular",
             extended = false,
             size = multiplier * 30,
             antialias = true,
@@ -271,7 +271,7 @@ if CLIENT then
             end
 
             bindtextlen_remap = bindtextlen_remap * hud_scale
-            print("bindtextlen = " .. bindtextlen .. "\n" .. "bindtextlen_remap = " .. bindtextlen_remap .. "\n")
+            //print("bindtextlen = " .. bindtextlen .. "\n" .. "bindtextlen_remap = " .. bindtextlen_remap .. "\n")
 
             boxsize = bindtextlen_remap
 
