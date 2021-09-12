@@ -71,8 +71,9 @@ if CLIENT then
            
             if (pPlayer:InVehicle()) then
                 local vehicle = pPlayer:GetVehicle()
-
-                print(vehicle:GetAmmo())
+                vehicle_ammo = select(3, vehicle:GetAmmo())
+                draw.DrawText(vehicle_ammo, "GWZ_NumberBoldBlur", (ScrW() - 195) - hud_offset_h, ScrH() - 130 * hud_scale - (hud_offset_v / 2), Color( 0, 0, 0, 200 ), TEXT_ALIGN_RIGHT)
+                draw.DrawText(vehicle_ammo, "GWZ_NumberBold",  (ScrW() - 197) - hud_offset_h, ScrH() - 132 * hud_scale - (hud_offset_v / 2), lightfg, TEXT_ALIGN_RIGHT)
             end
         end
     end)
