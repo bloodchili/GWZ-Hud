@@ -176,15 +176,17 @@ if CLIENT then
         surface.SetDrawColor( rect_darkbg.r, rect_darkbg.g, rect_darkbg.b, dark_background_alpha )
         surface.DrawRect((64 + hud_offset_h) * hud_scale, ScrH() - 65 * hud_scale - (hud_offset_v / 2), 197 * hud_scale, 8 * hud_scale)
 
+        local healthscale = math.Remap(pPlayer:Health(), 0, pPlayer:GetMaxHealth(), 0, 195 * hud_scale)
+
         -- Foreground red
         surface.SetDrawColor( rect_redbg.r, rect_redbg.g, rect_redbg.b, dark_background_alpha )
         start = SysTime()
-        lenght = Lerp(FrameTime() * 2, lenght, math.Clamp(pPlayer:Health() * 1.95, 0, 195))
-        surface.DrawRect((65 + hud_offset_h) * hud_scale, ScrH() - 64 * hud_scale - (hud_offset_v / 2), lenght * hud_scale, 6 * hud_scale)
+        lenght = Lerp(FrameTime() * 2, lenght, math.Clamp(healthscale, 0, 195))
+        surface.DrawRect((65 + hud_offset_h) * hud_scale, ScrH() - 64 * hud_scale - (hud_offset_v / 2), lenght, 6 * hud_scale)
 
         -- Foreground health
         surface.SetDrawColor( rect_lightbg.r, rect_lightbg.g, rect_lightbg.b, light_background_alpha )
-        surface.DrawRect((65 + hud_offset_h) * hud_scale, ScrH() - 64 * hud_scale - (hud_offset_v / 2), math.Clamp(pPlayer:Health() * 1.95, 0, 195) * hud_scale, 6 * hud_scale)
+        surface.DrawRect((65 + hud_offset_h) * hud_scale, ScrH() - 64 * hud_scale - (hud_offset_v / 2), healthscale, 6 * hud_scale)
 
         --- Draw armorbar   
         -- Background
@@ -200,17 +202,20 @@ if CLIENT then
         -- Armor chunks
         surface.SetDrawColor( 0, 110, 200, background_alpha )
         //surface.SetMaterial( bgArmorGrain )
-        armor1Lenght = math.Clamp((pPlayer:Armor() / 4) * 7.63, 0, 63)
+        armor1Lenght = math.Remap(pPlayer:Armor(), 0, pPlayer:GetMaxArmor() / 3, 0, 63)
+        armor1Lenght = math.Clamp(armor1Lenght, 0, 63)
         surface.DrawRect( (64 + hud_offset_h) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset_v / 2), 0 + armor1Lenght * hud_scale, 10 * hud_scale, 0, 0, 63, 10 )
 
         surface.SetDrawColor( 0, 110, 200, background_alpha )
         //surface.SetMaterial( bgArmorGrain )
-        armor2Lenght = math.Clamp((pPlayer:Armor() - 40) * 2.2, 0, 63)
+        armor2Lenght = math.Remap(pPlayer:Armor(), pPlayer:GetMaxArmor() / 3, pPlayer:GetMaxArmor() / 1.5, 0, 63)
+        armor2Lenght = math.Clamp(armor2Lenght, 0, 63)
         surface.DrawRect( (130 + hud_offset_h) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset_v / 2), 0 + armor2Lenght * hud_scale, 10 * hud_scale, 0, 0, 63, 10 )
 
         surface.SetDrawColor( 0, 110, 200, background_alpha )
         //surface.SetMaterial( bgArmorGrain )
-        armor3Lenght = math.Clamp((pPlayer:Armor() - 70) * 2.2, 0, 63)
+        armor3Lenght = math.Remap(pPlayer:Armor(), pPlayer:GetMaxArmor() / 1.5, pPlayer:GetMaxArmor(), 0, 63)
+        armor3Lenght = math.Clamp(armor3Lenght, 0, 63)
         surface.DrawRect( (197 + hud_offset_h) * hud_scale, ScrH() - 78 * hud_scale - (hud_offset_v / 2), 0 + armor3Lenght * hud_scale, 10 * hud_scale, 0, 0, 63, 10 )
 
         if (pPlayer:Armor() > 0 and pPlayer:Alive()) then
