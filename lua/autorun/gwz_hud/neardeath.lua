@@ -74,6 +74,7 @@ if CLIENT then
         if !GetConVar("gwz_hud_enable"):GetBool() then return end        
 
         pPlayer = LocalPlayer()
+        remapHealth = math.Remap(pPlayer:Health(), 0, pPlayer:GetMaxHealth(), 0, 100)
 
         if ( !IsValid( pPlayer ) ) then return end
 
@@ -94,7 +95,7 @@ if CLIENT then
             blood_alpha = 0
         end
 
-        if pPlayer:Alive() and pPlayer:Health() < 20 then
+        if pPlayer:Alive() and remapHealth < 20 then
             neardeathend = CreateSound(pPlayer, "neardeath_end");
             
             postprocces = true
@@ -118,7 +119,7 @@ if CLIENT then
             end
         end
 
-        if pPlayer:Alive() and pPlayer:Health() > 20 then
+        if pPlayer:Alive() and remapHealth > 20 then
             postprocces = false
             vignette_alpha = Lerp(10 * RealFrameTime(), vignette_alpha, 0);
             blood_alpha = Lerp(10 * RealFrameTime(), blood_alpha, 0);
@@ -144,7 +145,7 @@ if CLIENT then
             DrawColorModify( color_tab );
         end
 
-        if pPlayer:IsValid() and pPlayer:Alive() and pPlayer:Health() < 20 and !GetConVar("gwz_hud_reduce_effect"):GetBool() then
+        if pPlayer:IsValid() and pPlayer:Alive() and remapHealth < 20 and !GetConVar("gwz_hud_reduce_effect"):GetBool() then
             DrawMotionBlur( 0.17, 0.99, 0 )
         end
     end )
