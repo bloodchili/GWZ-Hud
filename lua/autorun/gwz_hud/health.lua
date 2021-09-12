@@ -113,7 +113,6 @@ if CLIENT then
     allow_armorbreak_effect = false
 
     textpos = 367
-    imagepos = 312
     imageposoffset = 0
 
     lenght = 169
@@ -228,49 +227,64 @@ if CLIENT then
         end
 
         if pcall(function() return pPlayer:GetArmorPlates() end) then 
-            -- Draw armor icon
-            surface.SetDrawColor( 255, 255, 255, armor_icon_alpha )
-            surface.SetMaterial( iconArmor )
-            surface.DrawTexturedRect( (imagepos + hud_offset_h) * hud_scale, ScrH() - 104 * hud_scale - (hud_offset_v / 2), 59 * hud_scale, 68 * hud_scale)
-
+            local bind = input.LookupBinding( "+armorplate" )
+            bindtext = ""
             
-            if pPlayer:GetArmorPlates() == 0 and pPlayer:Alive() then
-                armor_icon_alpha = Lerp(FrameTime() * 20, armor_icon_alpha, 70)
-            end
-
-            // Fix spam of error in multiplayer at the first spawn
-            if pcall(function() if pPlayer:GetArmorPlates() > 0 then return true end end) then 
-                if pPlayer:GetArmorPlates() > 0 and pPlayer:Alive() then
-                    armor_icon_alpha = Lerp(FrameTime() * 20, armor_icon_alpha, 200)
-
-                    surface.SetFont( "GWZ_SmallBlur" )
-                    surface.SetTextColor( 0, 0, 0, text_alpha )
-                    surface.SetTextPos( ( imagepos + 54 + hud_offset_h) * hud_scale, ScrH() - 86 * hud_scale - (hud_offset_v / 2)) 
-                    surface.DrawText( pPlayer:GetArmorPlates() )
-        
-                    surface.SetFont( "GWZ_Small" )
-                    surface.SetTextColor( 255, 255, 255, text_alpha )
-                    surface.SetTextPos( ( (imagepos + 54) + hud_offset_h) * hud_scale, ScrH() - 85 * hud_scale - (hud_offset_v / 2)) 
-                    surface.DrawText( pPlayer:GetArmorPlates() )                
-                end
-            end
-
-            bind = input.LookupBinding( "+armorplate" )
             if bind == nil then
                 bindtext = "UNBOUND"
             else
                 bindtext = string.upper(bind)
             end
+            
+            bindtextlen = string.len(bindtext)
+            // janky way to do this -- i tried to remap or use surface.GetTextSize()...
+            if (bindtextlen == 1) then
+                bindtextlen_remap = 19
+                divide = 5
+            elseif (bindtextlen == 2) then
+                bindtextlen_remap = 36
+                divide = 4
+            elseif (bindtextlen == 3) then
+                bindtextlen_remap = 54
+                divide = 3                
+            elseif (bindtextlen == 4) then
+                bindtextlen_remap = 72
+                divide = 3
+            elseif (bindtextlen == 5) then
+                bindtextlen_remap = 90
+                divide = 3
+            elseif (bindtextlen == 6) then
+                bindtextlen_remap = 108
+                divide = 2.5
+            elseif (bindtextlen == 7) then
+                bindtextlen_remap = 126
+                divide = 2
+            elseif (bindtextlen == 8) then
+                bindtextlen_remap = 144
+                divide = 2                
+            elseif (bindtextlen == 9) then
+                bindtextlen_remap = 162
+                divide = 2
+            elseif (bindtextlen == 10) then
+                bindtextlen_remap = 180
+                divide = 2
+            end
+
+            bindtextlen_remap = bindtextlen_remap * hud_scale
+            print("bindtextlen = " .. bindtextlen .. "\n" .. "bindtextlen_remap = " .. bindtextlen_remap .. "\n")
+
+            boxsize = bindtextlen_remap
+
+            -- Draw armor icon
+            surface.SetDrawColor( 255, 255, 255, armor_icon_alpha )
+            surface.SetMaterial( iconArmor )
+            surface.DrawTexturedRect( (330 + hud_offset_h) * hud_scale + ((boxsize / divide)), ScrH() - 104 * hud_scale - (hud_offset_v / 2), 59 * hud_scale, 68 * hud_scale)
+
+            draw.RoundedBox(10 * (hud_scale / 2), (348 + hud_offset_h) * hud_scale, ScrH() - 40 * hud_scale - (hud_offset_v / 2), boxsize + 3, 24 * hud_scale, Color(255, 255, 255, armor_icon_alpha))
 
             surface.SetFont( "GWZ_VerySmall" )
-            draw.RoundedBox(10 * (hud_scale / 2), (331.5 + hud_offset_h) * hud_scale, ScrH() - 40 * hud_scale - (hud_offset_v / 2), select(1, surface.GetTextSize(bindtext)) + (6 * hud_scale), 24 * hud_scale, Color(255, 255, 255, armor_icon_alpha) )
-
             surface.SetTextColor( 0, 0, 0, text_alpha )
-            surface.SetTextPos( ( 334 + hud_offset_h) * hud_scale, ScrH() - 43 * hud_scale - (hud_offset_v / 2)) 
-
-            imageposoffset = select(1, surface.GetTextSize(bindtext))
-            imagepos = 308 + (imageposoffset / 2)
-
+            surface.SetTextPos( ( 350 + hud_offset_h) * hud_scale, ScrH() - 43 * hud_scale - (hud_offset_v / 2))
             surface.DrawText(bindtext)
         end
     end )
