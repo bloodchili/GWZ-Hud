@@ -39,7 +39,6 @@ if SERVER then
 
 	gameevent.Listen( "entity_killed" )
 	hook.Add( "entity_killed", "HitmarkerKillDetector", function( data ) 
-		local wep = Entity(data.entindex_inflictor)
 		local att = Entity(data.entindex_attacker)
 		local dmgbits = data.damagebits
 		local ply = Entity(data.entindex_killed)
