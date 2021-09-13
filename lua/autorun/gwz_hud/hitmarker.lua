@@ -12,7 +12,7 @@ if SERVER then
 		local dmg = dmginfo:GetDamage()
 		
 		if (IsValid(att) and att:IsPlayer() and att ~= ply) then
-			if (ply:IsPlayer() or ply:IsNPC()) then
+			if (ply:IsPlayer() or ply:IsNPC() or ply:IsNextBot()) then
                 if (ply:IsPlayer() and ply:Armor() > 0) then
 				    net.Start("DrawHitMarker_Armor")
 					net.Send(att)
