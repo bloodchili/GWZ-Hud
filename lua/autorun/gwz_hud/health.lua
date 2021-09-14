@@ -27,7 +27,7 @@ if CLIENT then
         } )
 
         surface.CreateFont( "GWZ_VerySmall", {
-            font = "Roag-Regular",
+            font = "Open Sans Regular",
             extended = false,
             size = multiplier * 28,
             antialias = true,
@@ -51,7 +51,7 @@ if CLIENT then
         } )  
         
         surface.CreateFont( "GWZ_NumberBoldBlur", {
-            font = "Roag-Medium",
+            font = "Liberation Sans Bold",
             extended = false,
             blursize = 2,
             size = multiplier * 50,
@@ -59,7 +59,7 @@ if CLIENT then
         } )
 
         surface.CreateFont( "GWZ_NumberBold", {
-            font = "Roag-Medium",
+            font = "Liberation Sans Bold",
             extended = false,
             size = multiplier * 50,
             antialias = true,
