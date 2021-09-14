@@ -21,6 +21,13 @@ if SERVER then
 					net.Send(att)
                 end
 			end
+
+			if (ply:GetModel() == "models/props_c17/oildrum001_explosive.mdl" 
+			|| ply:GetModel() == "models/props_junk/gascan001a.mdl" 
+			|| ply:GetModel() == "models/props_junk/propane_tank001a.mdl") then
+				net.Start("DrawHitMarker")
+				net.Send(att) -- Send the message to the attacker
+			end
 		end
 	end)
 
@@ -47,7 +54,7 @@ if SERVER then
 		if (IsValid(att) and att:IsPlayer() and att ~= ply) then
 			net.Start("DrawDeathHitMarker")
 			net.Send(att) -- Send the message to the attacker
-			if (ply:IsPlayer() or ply:IsNPC()) then
+			if (ply:IsPlayer() or ply:IsNPC() or ply:IsNextBot()) then
 				if (ply:IsPlayer() and ply:LastHitGroup() == HITGROUP_HEAD) then
 					net.Start("HitgroupHead")
 					net.Send(att) -- Send the message to the attacker
@@ -55,6 +62,12 @@ if SERVER then
 					net.Start("HitgroupOther")
 					net.Send(att) -- Send the message to the attacker
 				end
+			end
+
+			-- Support for red barrel
+			if (ply:GetModel() == "models/props_c17/oildrum001_explosive.mdl") then
+				net.Start("HitgroupOther")
+				net.Send(att) -- Send the message to the attacker
 			end
 		end
 	end )
