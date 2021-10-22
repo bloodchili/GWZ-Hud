@@ -238,7 +238,7 @@ if CLIENT then
 
 			if (1 / RealFrameTime() > 15) then
 				alpha = Lerp(10 * RealFrameTime(), alpha, 0)
-				alpha_armor = Lerp(10 * RealFrameTime(), alpha_armor, 0)			
+				alpha_armor = Lerp(6 * RealFrameTime(), alpha_armor, 0)			
 
 				w_origin = Lerp(6 * RealFrameTime(), w_origin, 54)
 				h_origin = Lerp(6 * RealFrameTime(), h_origin, 54)
