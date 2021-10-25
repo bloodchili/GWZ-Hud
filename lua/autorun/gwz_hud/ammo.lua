@@ -1,5 +1,5 @@
 if CLIENT then
-    
+
     local hide = {
         ["CHudAmmo"] = true,
         ["CHudSecondaryAmmo"] = true
@@ -14,9 +14,8 @@ if CLIENT then
     end)
 
     local lightfg = Color(197, 200, 191)
-    local light_darker_fg = Color(165, 170, 170)
 
-    secondaryammotype = 
+    secondaryammotype =
     {
         2,
         9,
@@ -38,7 +37,7 @@ if CLIENT then
         hud_scale = math.Clamp( GetConVar("gwz_hud_scale_multiplier"):GetInt(), 1, 5)
         hud_offset_h = math.Clamp( GetConVar("gwz_hud_offset_h"):GetInt(), 0, 100)
         hud_offset_v = math.Clamp( GetConVar("gwz_hud_offset_v"):GetInt(), 0, 100)
-    
+
         weapon = pPlayer:GetActiveWeapon()
 
         if IsValid(weapon) then
@@ -48,7 +47,7 @@ if CLIENT then
             ammo2 = math.Clamp(weapon:Clip2(), 0, 9999)
             ammo2mag = math.Clamp(pPlayer:GetAmmoCount(weapon:GetSecondaryAmmoType()), 0, 9999)
 
-            if (weapon:GetMaxClip1() > -1 and weapon:GetPrimaryAmmoType() ~= -1 and !pPlayer:InVehicle()) then                
+            if (weapon:GetMaxClip1() > -1 && weapon:GetPrimaryAmmoType() ~= -1 && !pPlayer:InVehicle()) then
                 if (ammo1 < weapon:GetMaxClip1() / 3) then
                     lightfg_ammo1 = Color(160, 65, 55)
                 else
@@ -79,7 +78,7 @@ if CLIENT then
                         draw.DrawText("| " .. ammo2mag, "GWZ_Number",  (ScrW() - 190) - hud_offset_h, ScrH() - 90 * hud_scale - (hud_offset_v / 2), lightfg_ammo3, TEXT_ALIGN_LEFT)
                     end
                 end
-            elseif (weapon:GetMaxClip1() == -1 and !pPlayer:InVehicle()) then
+            elseif (weapon:GetMaxClip1() == -1 && !pPlayer:InVehicle()) then
                 if (ammo1mag == 0) then
                     lightfg_ammo2 = Color(120, 65, 55)
                 else
@@ -93,8 +92,8 @@ if CLIENT then
                     end
                 end
             end
-           
-            if (pPlayer:InVehicle() and select(3, pPlayer:GetVehicle():GetAmmo()) != -1) then
+
+            if (pPlayer:InVehicle() && select(3, pPlayer:GetVehicle():GetAmmo()) ~= -1) then
                 local vehicle = pPlayer:GetVehicle()
                 vehicle_ammo = select(3, vehicle:GetAmmo())
                 draw.DrawText(vehicle_ammo, "GWZ_NumberBoldBlur", (ScrW() - 195) - hud_offset_h, ScrH() - 130 * hud_scale - (hud_offset_v / 2), Color( 0, 0, 0, 200 ), TEXT_ALIGN_RIGHT)

@@ -14,10 +14,10 @@ if CLIENT then
     start = 0;
 
     hook.Add( "HUDPaint", "GWZ_ArmorBreakPaint", function()
-        if !GetConVar("gwz_hud_enable"):GetBool() or !GetConVar("cl_drawhud"):GetBool() then return end        
+        if !GetConVar("gwz_hud_enable"):GetBool() or !GetConVar("cl_drawhud"):GetBool() then return end
         if ( !IsValid( pPlayer ) ) then return end
 
-        if pPlayer:Armor() == 0 and not isPlayed then
+        if pPlayer:Armor() == 0 && !isPlayed then
             if (!GetConVar("gwz_hud_reduce_effect"):GetBool()) then
                 alpha = 255;
             else

@@ -1,5 +1,3 @@
-headshot = false
-
 sound.Add( {
     name = "GWZ.BulletImpactFleshTorso",
     channel = CHAN_AUTO,
@@ -14,7 +12,7 @@ sound.Add( {
     "player/blt_imp_flesh_npc_lyr_torso_07.wav",
     "player/blt_imp_flesh_npc_lyr_torso_08.wav",
     "player/blt_imp_flesh_npc_lyr_torso_09.wav",
-    "player/blt_imp_flesh_npc_lyr_torso_10.wav"}                
+    "player/blt_imp_flesh_npc_lyr_torso_10.wav"}
 } )
 
 sound.Add( {
@@ -22,7 +20,7 @@ sound.Add( {
     channel = CHAN_AUTO,
     volume = 1,
     level = 75,
-    pitch = 75,
+    pitch = 100,
     sound = {
     "player/blt_imp_flesh_npc_lyr_torso_03.wav",
     "player/blt_imp_flesh_npc_lyr_torso_04.wav",
@@ -31,7 +29,27 @@ sound.Add( {
     "player/blt_imp_flesh_npc_lyr_torso_07.wav",
     "player/blt_imp_flesh_npc_lyr_torso_08.wav",
     "player/blt_imp_flesh_npc_lyr_torso_09.wav",
-    "player/blt_imp_flesh_npc_lyr_torso_10.wav"}                
+    "player/blt_imp_flesh_npc_lyr_torso_10.wav"}
+} )
+
+sound.Add( {
+    name = "GWZ.BulletImpactFleshHard",
+    channel = CHAN_AUTO,
+    volume = 1,
+    level = 75,
+    pitch = 60,
+    sound = {
+    "player/blt_imp_flesh_plr_02.wav",
+    "player/blt_imp_flesh_plr_03.wav",
+    "player/blt_imp_flesh_plr_04.wav",
+    "player/blt_imp_flesh_plr_05.wav",
+    "player/blt_imp_flesh_plr_06.wav",
+    "player/blt_imp_flesh_plr_09.wav",
+    "player/blt_imp_flesh_plr_10.wav",
+    "player/blt_imp_flesh_plr_11.wav",
+    "player/blt_imp_flesh_plr_12.wav",
+    "player/blt_imp_flesh_plr_13.wav",
+    "player/blt_imp_flesh_plr_14.wav"}
 } )
 
 sound.Add( {
@@ -46,7 +64,7 @@ sound.Add( {
     "player/blt_imp_flesh_npc_lyr_torso_05_armor.wav",
     "player/blt_imp_flesh_npc_lyr_torso_06_armor.wav",
     "player/blt_imp_flesh_npc_lyr_torso_09_armor.wav",
-    "player/blt_imp_flesh_npc_lyr_torso_10_armor.wav"}                
+    "player/blt_imp_flesh_npc_lyr_torso_10_armor.wav"}
 } )
 
 local NET = "gwz_death_net";
@@ -58,13 +76,7 @@ if SERVER then
 hook.Add("ScalePlayerDamage", "FleshHit", function (ply, hitgroup, dmginfo)
     if !GetConVar("gwz_hud_enable"):GetBool() then return end
     ply:StopSound("Flesh.BulletImpact")
-    if ( hitgroup == HITGROUP_HEAD ) then
-        print(headshot)
-        headshot = true
-        timer.Simple(1, function()
-            headshot = false
-            print(headshot)
-        end)
+    if ( hitgroup == HITGROUP_HEAD && dmginfo:GetAmmoType() != 7 ) then
         dmginfo:ScaleDamage( 2 )
         ply:EmitSound("GWZ.BulletImpactFleshHead")
         ply:ViewPunchReset( 0 )
@@ -72,23 +84,23 @@ hook.Add("ScalePlayerDamage", "FleshHit", function (ply, hitgroup, dmginfo)
     else
         dmginfo:ScaleDamage( 0.50 )
         ply:ViewPunchReset( 0 )
-        ply:ViewPunch( Angle( math.Rand( -0.5, 0.76 ), math.Rand( -2, 1), math.Rand( -0.11, 0.34 ) ) )     
-        if ply:Armor() > 0 then
-            ply:EmitSound("GWZ.BulletImpactFleshTorso")
+        ply:ViewPunch( Angle( math.Rand( -0.5, 0.76 ), math.Rand( -2, 1), math.Rand( -0.11, 0.34 ) ) )
+        if (dmginfo:GetAmmoType() == 7) then
+            ply:EmitSound("GWZ.BulletImpactFleshHard")
         else
-            ply:EmitSound("GWZ.BulletImpactFleshHead")
-        end       
+            ply:EmitSound("GWZ.BulletImpactFleshTorso")
+        end
     end
 end )
 
 hook.Add( "PlayerHurt", "hurt_effect_fade", function( ply )
     if !GetConVar("gwz_hud_enable"):GetBool() then return end
-    
+
     if (!GetConVar("gwz_hud_reduce_effect"):GetBool()) then
         ply:ScreenFade( SCREENFADE.IN, Color( 100, 0, 0, 128 ), 0.1, 0 );
     else
         ply:ScreenFade( SCREENFADE.IN, Color( 100, 0, 0, 32 ), 0.1, 0 );
-    end        
+    end
 end )
 
 util.AddNetworkString(NET)
@@ -108,7 +120,7 @@ if CLIENT then
     local wasWorldspawn = false
 
     CreateClientConVar("gwz_hud_reduce_effect", 0, true, true);
-    
+
     net.Receive(NET, function(len)
         wasSuicide = net.ReadBool()
         wasWorldspawn = net.ReadBool()
@@ -116,7 +128,7 @@ if CLIENT then
 
     hook.Add("HUDPaint", "GWZ_DeathScreen", function()
         if !GetConVar("gwz_hud_enable"):GetBool() then return end
-        if (!wasSuicide and !wasWorldspawn and !LocalPlayer():Alive() and !isPlayedDeathSound) then
+        if (!wasSuicide && !wasWorldspawn && !LocalPlayer():Alive() && !isPlayedDeathSound) then
         surface.PlaySound("player/plr_death_by_kill.wav")
         isPlayedDeathSound = true
     end

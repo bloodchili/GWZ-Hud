@@ -32,7 +32,7 @@ if CLIENT then
         view.origin = ply:LocalToWorld(Vector(-50,0,5))
       else
         view.origin = ply:LocalToWorld(Vector(0,0,5))
-      end       
+      end
   	  view.angles = Angle(angles.p, angles.y, angles.r);
       view.fov = 75;
 

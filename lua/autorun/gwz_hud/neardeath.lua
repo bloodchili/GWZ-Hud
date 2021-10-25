@@ -34,7 +34,7 @@ if CLIENT then
         level = 0,
         pitch = 100,
         sound = "player/plr_neardeath_end.wav"
-    } )    
+    } )
 
     util.PrecacheSound("neardeath");
     util.PrecacheSound("neardeath_end");
@@ -58,12 +58,12 @@ if CLIENT then
     net.Receive( "StopNearDeathSound", function( len, ply )
         timer.Simple(0.1, function()
             color_tab["$pp_colour_contrast"] = 1;
-            color_tab["$pp_colour_colour"] = 1;        
+            color_tab["$pp_colour_colour"] = 1;
         end)
 
         timer.Simple(0.1, function()
             alpha = 0
-            if (neardeathend ~= nil and neardeath ~= nil) then
+            if (neardeathend ~= nil && neardeath ~= nil) then
                 neardeathend:Stop()
                 neardeath:Stop()
             end
@@ -71,14 +71,14 @@ if CLIENT then
     end)
 
     hook.Add( "HUDPaint", "GWZ_NearDeath", function()
-        if !GetConVar("gwz_hud_enable"):GetBool() then return end        
+        if !GetConVar("gwz_hud_enable"):GetBool() then return end
 
         pPlayer = LocalPlayer()
         remapHealth = math.Remap(pPlayer:Health(), 0, pPlayer:GetMaxHealth(), 0, 100)
 
         if ( !IsValid( pPlayer ) ) then return end
 
-        if not neardeathend and not neardeath then
+        if !neardeathend && !neardeath then
             neardeath = CreateSound(pPlayer, "neardeath");
         end
 
@@ -95,9 +95,9 @@ if CLIENT then
             blood_alpha = 0
         end
 
-        if pPlayer:Alive() and remapHealth < 20 then
+        if pPlayer:Alive() && remapHealth < 20 then
             neardeathend = CreateSound(pPlayer, "neardeath_end");
-            
+
             postprocces = true
             blood_alpha = Lerp(10 * RealFrameTime(), blood_alpha, 225);
             if !GetConVar("gwz_hud_reduce_effect"):GetBool() then
@@ -112,40 +112,39 @@ if CLIENT then
             neardeathend:Stop();
 
             -- Play start sound
-            if !neardeath:IsPlaying() and !isPlayed_sndNearDeath then
+            if !neardeath:IsPlaying() && !isPlayed_sndNearDeath then
                 neardeath:Play();
                 isPlayed_sndNearDeath = true;
                 isPlayed_sndNearDeathEnd = false;
             end
         end
 
-        if pPlayer:Alive() and remapHealth > 20 then
+        if pPlayer:Alive() && remapHealth > 20 then
             postprocces = false
             vignette_alpha = Lerp(10 * RealFrameTime(), vignette_alpha, 0);
             blood_alpha = Lerp(10 * RealFrameTime(), blood_alpha, 0);
             color_tab["$pp_colour_contrast"] = 1;
             color_tab["$pp_colour_colour"] = 1;
             neardeath:Stop();
-            if (neardeathend ~= nil) then
-                -- Play end sound
-                if !neardeathend:IsPlaying() and !isPlayed_sndNearDeathEnd then
-                    neardeathend:Play();
 
-                    isPlayed_sndNearDeathEnd = true;
-                    isPlayed_sndNearDeath = false;
-                end
+            -- Play end sound
+            if (neardeathend ~= nil && !neardeathend:IsPlaying() && !isPlayed_sndNearDeathEnd) then
+                neardeathend:Play();
+
+                isPlayed_sndNearDeathEnd = true;
+                isPlayed_sndNearDeath = false;
             end
         end
     end)
 
     hook.Add("RenderScreenspaceEffects", "GWZ_NearDeathPostProcess", function()
         if !GetConVar("gwz_hud_enable"):GetBool() then return end
-        
-        if (postprocces) then   
+
+        if (postprocces) then
             DrawColorModify( color_tab );
         end
 
-        if pPlayer:IsValid() and pPlayer:Alive() and remapHealth < 20 and !GetConVar("gwz_hud_reduce_effect"):GetBool() then
+        if pPlayer:IsValid() && pPlayer:Alive() && remapHealth < 20 && !GetConVar("gwz_hud_reduce_effect"):GetBool() then
             DrawMotionBlur( 0.17, 0.99, 0 )
         end
     end )
@@ -153,7 +152,7 @@ end
 
 if SERVER then
     util.AddNetworkString( "StopNearDeathSound" )
-    
+
     hook.Add("PlayerSpawn", "GWZ_PlayerSpawnAfterNearDeath", function(ply)
         if (ply:IsValid()) then
             net.Start("StopNearDeathSound")
