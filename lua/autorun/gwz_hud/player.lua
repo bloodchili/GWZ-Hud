@@ -94,7 +94,7 @@ hook.Add("ScalePlayerDamage", "FleshHit", function (ply, hitgroup, dmginfo)
 end )
 
 hook.Add( "PlayerHurt", "hurt_effect_fade", function( ply )
-    if !GetConVar("gwz_hud_enable"):GetBool() or !GetConVar("gwz_hud_enable_attackindicator"):GetBool() then return end
+    if !GetConVar("gwz_hud_enable"):GetBool() then return end
 
     if (!GetConVar("gwz_hud_reduce_effect"):GetBool()) then
         ply:ScreenFade( SCREENFADE.IN, Color( 100, 0, 0, 128 ), 0.1, 0 );

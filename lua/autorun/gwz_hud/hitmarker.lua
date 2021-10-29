@@ -71,7 +71,7 @@ if SERVER then
 end
 
 if CLIENT then
-    local enableElement = CreateClientConVar("gwz_hud_enable_hitmarker", 1, true, true);
+    -- Declare our convars && variables
     local enable = CreateClientConVar("gwz_hud_enable", "1", true, true)
     local style = CreateClientConVar("gwz_hud_hitmark_snd_style", "0", true, true)
     local bg_hitmark = Material("hud/hitmark.png")
@@ -141,7 +141,7 @@ if CLIENT then
     end)
 
     function PlayDeathHitSound(ishead)
-        if !GetConVar("gwz_hud_enable"):GetBool() or !enableElement:GetBool() then return end
+        if not GetConVar("gwz_hud_enable"):GetBool() then return end
 
         if (ishead) then
             local random = math.random(1, 3)
@@ -153,8 +153,6 @@ if CLIENT then
     end
 
     net.Receive("DrawHitMarker", function(len, ply)
-        if !GetConVar("gwz_hud_enable"):GetBool() or !enableElement:GetBool() then return end
-        
         DrawRedHitM = false
         DrawHitM = true
         CanPlayS = true
@@ -174,8 +172,6 @@ if CLIENT then
     end)
 
     net.Receive("DrawHitMarker_Armor", function(len, ply)
-        if !GetConVar("gwz_hud_enable"):GetBool() or !enableElement:GetBool() then return end
-        
         DrawHitM = true
         CanPlayS = true
         alpha = 255
@@ -198,7 +194,7 @@ if CLIENT then
     end)
 
     hook.Add("HUDPaint", "HitmarkerDraw", function()
-        if !GetConVar("gwz_hud_enable"):GetBool() or !enableElement then return end
+        if not GetConVar("gwz_hud_enable"):GetBool() then return end
         start = SysTime()
         if enable:GetBool() == false then return end
 

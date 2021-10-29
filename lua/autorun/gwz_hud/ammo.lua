@@ -1,5 +1,4 @@
 if CLIENT then
-    local enable = CreateClientConVar("gwz_hud_enable_ammo", 1, true, true);
 
     local hide = {
         ["CHudAmmo"] = true,
@@ -31,7 +30,7 @@ if CLIENT then
     }
 
     hook.Add( "HUDPaint", "GWZ_AmmoPaint", function()
-        if !GetConVar("gwz_hud_enable"):GetBool() or !enable:GetBool() or !GetConVar("cl_drawhud"):GetBool() then return end
+        if !GetConVar("gwz_hud_enable"):GetBool() or !GetConVar("cl_drawhud"):GetBool() then return end
         pPlayer = LocalPlayer()
         if ( !IsValid( pPlayer ) ) then return end
 
