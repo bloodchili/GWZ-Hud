@@ -52,6 +52,8 @@ end
 if SERVER then
     util.AddNetworkString("AlivePlayers")
 
+    if (game.SinglePlayer()) then return false end;
+
     hook.Add("PlayerSpawn", "GWZ_AddAlivePlayers", function(ply)
         aliveplayers = aliveplayers + 1
         PrintMessage( HUD_PRINTTALK, aliveplayers )
