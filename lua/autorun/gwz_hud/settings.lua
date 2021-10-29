@@ -15,6 +15,15 @@ spawnmenu.AddToolMenuOption( "Options", "GWZ Hud", "GWZHudClient", "Client", "",
     panel:AddControl( "Checkbox", { Label = "Enable deathscreen (WIP)", Command = "gwz_hud_deathcamera_enable", });
     panel:AddControl( "Checkbox", { Label = "Reduced effects", Command = "gwz_hud_reduce_effect", });
     panel:AddControl( "Checkbox", { Label = "Classic hitmark sound", Command = "gwz_hud_hitmark_snd_style", });
+
+    panel:Help("Hud Features:")
+    panel:AddControl( "Checkbox", { Label = "Enable player's stats", Command = "gwz_hud_enable_healthpanel", });
+    panel:AddControl( "Checkbox", { Label = "Enable player's ammo counter", Command = "gwz_hud_enable_ammo", });
+    panel:AddControl( "Checkbox", { Label = "Enable hitmarker", Command = "gwz_hud_enable_hitmarker", });
+    panel:AddControl( "Checkbox", { Label = "Enable damage indicator", Command = "gwz_hud_enable_attackindicator", });
+    panel:AddControl( "Checkbox", { Label = "Enable armor break effect", Command = "gwz_hud_enable_armorbreak", });
+    panel:AddControl( "Checkbox", { Label = "Enable \"Near Death\" effect", Command = "gwz_hud_enable_neardeath", });
+    panel:AddControl( "Checkbox", { Label = "Enable stats (frags, players on server)", Command = "gwz_hud_enable_counter", });
 end);
 
 spawnmenu.AddToolMenuOption( "Options", "GWZ Hud", "GWZHudServer", "Server", "", "", function(panel)

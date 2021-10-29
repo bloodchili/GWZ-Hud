@@ -1,6 +1,7 @@
 isPlayed = true
 
 if CLIENT then
+    local enable = CreateClientConVar("gwz_hud_enable_armorbreak", 1, true, true);
     efArmorBreak = Material( "hud/armor_broken_fullscreen.png", "smooth")
     efArmorBreakCircle = Material( "hud/armor_broken_circle.png", "smooth")
     pPlayer = LocalPlayer()
@@ -14,7 +15,7 @@ if CLIENT then
     start = 0;
 
     hook.Add( "HUDPaint", "GWZ_ArmorBreakPaint", function()
-        if !GetConVar("gwz_hud_enable"):GetBool() or !GetConVar("cl_drawhud"):GetBool() then return end
+        if !GetConVar("gwz_hud_enable"):GetBool() or !enable:GetBool() or !GetConVar("cl_drawhud"):GetBool() then return end
         if ( !IsValid( pPlayer ) ) then return end
 
         if pPlayer:Armor() == 0 && !isPlayed then

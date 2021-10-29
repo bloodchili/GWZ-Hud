@@ -12,6 +12,7 @@ if CLIENT then
     CreateClientConVar("gwz_hud_offset_h", "0", true, false, "Offsets the HUD horizontally (minimum 1, maximum 100)")
     CreateClientConVar("gwz_hud_offset_v", "0", true, false, "Offsets the HUD vertically (minimum 1, maximum 100)")
     CreateClientConVar("gwz_hud_scale_multiplier", "1", true, false, "Scale of the HUD (minimum 1, maximum 5)")
+    local enable = CreateClientConVar("gwz_hud_enable_healthpanel", 1, true, true);
 
     -- Shared fonts (for other hud elements too )
     function CreateFonts()
@@ -112,9 +113,9 @@ if CLIENT then
     lenght = 169
 
     hook.Add("HUDPaint", "GWZ_HealthPaint", function()
-        if not GetConVar("gwz_hud_enable"):GetBool() or not GetConVar("cl_drawhud"):GetBool() then return end
+        if !GetConVar("gwz_hud_enable"):GetBool() or !GetConVar("cl_drawhud"):GetBool() or !enable:GetBool() then return end
         if GetConVar("gwz_hud_server_realism_mode"):GetBool() then return end
-        if (not IsValid(LocalPlayer())) then return end
+        if (!IsValid(LocalPlayer())) then return end
         local pPlayer = LocalPlayer()
 
         if pPlayer:Alive() then
@@ -126,7 +127,7 @@ if CLIENT then
             armor_icon_alpha = Lerp(FrameTime() * 30, armor_icon_alpha, 200)
         end
 
-        if not pPlayer:Alive() then
+        if !pPlayer:Alive() then
             start = SysTime()
             background_alpha = Lerp(FrameTime() * 50, background_alpha, 0)
             text_alpha = Lerp(FrameTime() * 50, text_alpha, 0)
@@ -218,7 +219,7 @@ if CLIENT then
 
             bindtextlen = string.len(bindtext)
 
-            -- janky way to do this -- i tried to remap or use surface.GetTextSize()...
+            -- janky way to do this -- i've tried to remap or use surface.GetTextSize()...
             if (bindtextlen == 1) then
                 bindtextlen_remap = 19
                 divide = 5
