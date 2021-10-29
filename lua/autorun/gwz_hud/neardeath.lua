@@ -14,9 +14,13 @@ isPlayed_sndNearDeathEnd = false
 start = 0;
 
 if CLIENT then
+    local enable = CreateClientConVar("gwz_hud_enable_neardeath", 1, true, true);
+      
     local efVignette = Material( "hud/vignette.png" );
     local efBlood = Material( "hud/blood-overlay.png" );
     local postprocces = false
+
+    local remapHealth = LocalPlayer():Health();
 
     sound.Add( {
         name = "neardeath",
@@ -71,7 +75,7 @@ if CLIENT then
     end)
 
     hook.Add( "HUDPaint", "GWZ_NearDeath", function()
-        if !GetConVar("gwz_hud_enable"):GetBool() then return end
+        if !GetConVar("gwz_hud_enable"):GetBool() or !enable:GetBool() then return end
 
         pPlayer = LocalPlayer()
         remapHealth = math.Remap(pPlayer:Health(), 0, pPlayer:GetMaxHealth(), 0, 100)
@@ -138,7 +142,7 @@ if CLIENT then
     end)
 
     hook.Add("RenderScreenspaceEffects", "GWZ_NearDeathPostProcess", function()
-        if !GetConVar("gwz_hud_enable"):GetBool() then return end
+        if !GetConVar("gwz_hud_enable"):GetBool() or !enable:GetBool() then return end
 
         if (postprocces) then
             DrawColorModify( color_tab );

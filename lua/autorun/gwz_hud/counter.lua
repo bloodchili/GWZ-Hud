@@ -5,8 +5,10 @@ if CLIENT then
 
     local aliveplayers = 0
 
+    local enable = CreateClientConVar("gwz_hud_enable_counter", 1, true, true);
+
     hook.Add( "HUDPaint", "GWZ_Counter", function()
-        if !GetConVar("gwz_hud_enable"):GetBool() or !GetConVar("cl_drawhud"):GetBool() then return end
+        if !GetConVar("gwz_hud_enable"):GetBool() or !GetConVar("cl_drawhud"):GetBool() or !enable:GetBool() then return end
         if GetConVar("gwz_hud_server_realism_mode"):GetBool() then return end
         if ( !IsValid( LocalPlayer() ) ) then return end
         if (game.SinglePlayer()) then return end
